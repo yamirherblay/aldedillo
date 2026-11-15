@@ -76,7 +76,7 @@ Un registro (`ui/router.js`) las mapea al hash (`#manual`, `#examen`, `#progreso
 
 ## Stack
 
-Vanilla HTML + CSS + JS (módulos ES), **sin build**, desplegable directamente en Vercel.
+Vanilla HTML + CSS + JS (módulos ES), **sin build**, desplegado en Cloudflare Pages.
 La lógica (motor de examen, buscador, navegación por código) es independiente del framework por diseño: si una fase futura exige framework o APK, se porta — los datos versionados no cambian.
 
 ---
@@ -90,4 +90,4 @@ La lógica (motor de examen, buscador, navegación por código) es independiente
 | 1 | Entrada (puerta única): hero, badge de vigencia, preview de pregunta, 3 CTAs, instalar sin internet, dark mode | ✅ Completada (verificada en claro/oscuro con capturas) |
 | 2 | Shell de consulta: navegación por código, plantillas, buscador, glosario, plazos, educarse, progreso, fuentes (verificada en claro/oscuro con capturas) | ✅ Completada |
 | 3 | Examen con retroalimentación (chip → sección exacta del Manual): motor en `core/examen.js`, sesión persistente, exámenes por punto de golpe | ✅ Completada (verificada con capturas del flujo completo) |
-| 4 | Offline (Service Worker) + despliegue Vercel + prueba en condiciones reales | ⬜ Pendiente |
+| 4 | Offline (Service Worker) + prueba en condiciones reales (despliegue: Cloudflare Pages ✅) | ⬜ Pendiente |

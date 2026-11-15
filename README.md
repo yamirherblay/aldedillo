@@ -33,11 +33,11 @@ al-dedillo/
 
 Vanilla HTML + CSS + JS (módulos ES). **Sin build.**
 
-## Despliegue (Vercel)
+## Despliegue (Cloudflare Pages)
 
-1. Subir la carpeta `al-dedillo/` al repositorio o importar el proyecto en Vercel.
-2. Framework preset: **Other** (no hay build). Output directory: `al-dedillo`.
-3. Desplegar. La actualización de contenido es reemplazar un archivo en `data/` — sin recompilar.
+1. Conectar el repo `yamirherblay/aldedillo` en Cloudflare Pages.
+2. Framework preset: **None** (no hay build). Build output directory: `/` (la raíz del repo es la raíz del sitio).
+3. Desplegar. La actualización de contenido es reemplazar un archivo en `data/` y `git push` — sin recompilar.
 
 ## Actualización de contenido normativo
 

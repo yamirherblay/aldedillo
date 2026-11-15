@@ -14,7 +14,7 @@ educarse con los puntos que más golpean y autoexaminarse con retroalimentación
 
 - **Vanilla** HTML + CSS + JS (módulos ES). Sin build, sin framework, sin CDNs.
 - Todo el texto visible en **español**. Iconos SVG inline (nunca emoji).
-- Desplegable directo en Vercel; APK contemplada a futuro (Fase 5+).
+- Desplegado en **Cloudflare Pages** (repo `yamirherblay/aldedillo`); APK contemplada a futuro (Fase 5+).
 - **El contenido se actualiza solo editando `data/`** — la lógica nunca necesita cambios para eso.
 
 ## 2. Cómo ejecutarlo
@@ -45,7 +45,7 @@ Parámetros de QA (solo verificación, no afectan uso normal):
 | 1 | Página de entrada (`index.html`): hero, vigencia, preview de pregunta, CTAs, dark mode | ✅ verificada |
 | 2 | App de consulta: 9 vistas, buscador offline, glosario, plazos, progreso, reflujo de texto, layout amplio | ✅ verificada |
 | 3 | Examen: motor en `core/examen.js`, retroalimentación con chips, sesión persistente, exámenes por punto | ✅ verificada |
-| 4 | **SIGUIENTE**: Service Worker (`sw.js`) + Vercel + prueba offline real | ⬜ |
+| 4 | **SIGUIENTE**: Service Worker (`sw.js`) + prueba offline real (despliegue ya hecho en Cloudflare Pages) | ⬜ |
 | 5 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
 
 ## 4. Mapa de archivos
@@ -114,8 +114,8 @@ al-dedillo/
 
 1. **Fase 4 — offline + despliegue**:
    - `sw.js`: precache de HTML/CSS/JS/fonts/icons/data (~1.2 MB), estrategia cache-first con versión en el nombre del caché; actualizar `manifest` si hace falta; probar en modo avión.
-   - Vercel: subir carpeta tal cual (sin build); headers correctos no imprescindibles.
-   - Prueba real sin conexión (zona muerta).
+   - Despliegue: ✅ hecho en Cloudflare Pages desde el repo `yamirherblay/aldedillo` (sin build; la raíz del repo es la raíz del sitio).
+   - Prueba real sin conexión (zona muerta) — tras crear el Service Worker.
 2. **Re-extracción de tablas del Tomo I con `pdftotext -layout`**: las tablas complejas (escala de materialidad en H-001-0001-07, «Tareas y su descripción») quedan entremezcladas. `-layout` las recupera mucho mejor, pero exige regenerar `data/manual.js` y repetir las verificaciones de fidelidad (31/31 secciones, 89/91 plantillas). Off: página impresa 3252 = página PDF 3 (offset 3249).
 3. **Validación por auditores** (contenido): 6 preguntas del banco, 6 puntos de golpe, 18 términos del glosario — todos marcados `borrador-pendiente-validacion` en sus `meta`.
 4. **Completar el banco a 20 preguntas** → el examen pasa a 20×5 automáticamente.
