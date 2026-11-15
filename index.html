@@ -116,5 +116,11 @@
 </div>
 
 <script src="js/entrada.js"></script>
+<script>
+  // Service Worker: modo sin conexión (Fase 4). No bloquea el render.
+  if ("serviceWorker" in navigator && location.protocol !== "file:") {
+    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+  }
+</script>
 </body>
 </html>
