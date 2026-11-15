@@ -1,0 +1,418 @@
+/* ============================================================
+   AL DEDILLO — página de entrada (index.html)
+   Patrón "Minimal & Direct" de la skill: Hero → Features → CTA.
+   Firma visual: chip de código normativo + escala de plazos.
+   ============================================================ */
+
+.pagina {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--espacio-5) var(--espacio-3) var(--espacio-6);
+}
+.hero,
+.preview,
+.acciones,
+.zona-instalar,
+.pie {
+  width: 100%;
+  max-width: var(--ancho-contenido);
+}
+
+/* ---------- barra superior: marca + tema ---------- */
+.barra {
+  width: 100%;
+  max-width: var(--ancho-contenido);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espacio-3);
+}
+.marca {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  color: var(--color-foreground);
+  text-decoration: none;
+}
+.marca-escudo {
+  width: 40px;
+  height: 40px;
+  flex: none;
+}
+.marca-texto b {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+  display: block;
+  line-height: 1.1;
+}
+.marca-texto small {
+  color: var(--color-muted-text);
+  font-size: 0.72rem;
+}
+.boton-tema {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  border-radius: 999px;
+  padding: var(--espacio-2) var(--espacio-3);
+  min-height: 44px;
+  font-size: 0.85rem;
+  transition: transform var(--dur-1) var(--easing), background var(--dur-1) var(--easing);
+}
+.boton-tema:active {
+  transform: scale(0.97);
+}
+
+/* ---------- hero ---------- */
+.hero {
+  text-align: center;
+  margin-top: var(--espacio-6);
+}
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 6px var(--espacio-3);
+  font-size: 0.8rem;
+  color: var(--color-muted-text);
+  background: var(--color-surface);
+}
+.punto-vigencia {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex: none;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 9vw, 4.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: var(--espacio-4) 0 var(--espacio-2);
+}
+.hero-slogan {
+  font-size: 1.05rem;
+  color: var(--color-muted-text);
+  max-width: 34rem;
+  margin: 0 auto;
+}
+.hero-slogan strong {
+  color: var(--color-foreground);
+}
+
+/* ---------- chip de código (firma visual) ---------- */
+.chip {
+  font-family: var(--font-codigo);
+  font-size: 0.78rem;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+  border-radius: var(--radio-chip);
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* ---------- preview de pregunta ---------- */
+.preview {
+  margin-top: var(--espacio-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radio-2);
+  padding: var(--espacio-4);
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+.preview-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--espacio-2);
+  margin-bottom: var(--espacio-3);
+  flex-wrap: wrap;
+}
+.preview-cabecera small {
+  color: var(--color-muted-text);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.preview-texto {
+  font-weight: 700;
+  margin: 0 0 var(--espacio-3);
+  font-size: 1.02rem;
+}
+.preview-opciones {
+  display: grid;
+  gap: var(--espacio-2);
+}
+.preview-opt {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radio-1);
+  padding: 10px var(--espacio-3);
+  min-height: 44px;
+  display: flex;
+  gap: var(--espacio-2);
+  align-items: center;
+  font-size: 0.95rem;
+}
+.opt-letra {
+  font-family: var(--font-codigo);
+  color: var(--color-muted-text);
+  flex: none;
+}
+.preview-opt[data-correcta="true"] {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+.preview-opt .sello {
+  margin-left: auto;
+  color: var(--color-accent);
+  flex: none;
+  display: none;
+}
+.preview-opt[data-correcta="true"] .sello {
+  display: inline-flex;
+}
+.preview-explicacion {
+  margin: var(--espacio-3) 0 0;
+  font-size: 0.88rem;
+  color: var(--color-muted-text);
+}
+.preview-explicacion .chip {
+  margin-right: var(--espacio-2);
+}
+
+/* ---------- tres CTAs ---------- */
+.acciones {
+  display: grid;
+  gap: var(--espacio-3);
+  margin-top: var(--espacio-5);
+}
+.cta {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-3);
+  padding: var(--espacio-3) var(--espacio-4);
+  border-radius: var(--radio-2);
+  text-decoration: none;
+  min-height: 64px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  transition: transform var(--dur-1) var(--easing), border-color var(--dur-1) var(--easing), box-shadow var(--dur-1) var(--easing);
+}
+.cta:hover {
+  border-color: var(--color-primary);
+}
+.cta:active {
+  transform: scale(0.98);
+}
+.cta-ico {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radio-1);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.cta-principal .cta-ico {
+  background: var(--color-accent);
+  color: #04291c;
+}
+.cta b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+.cta small {
+  color: var(--color-muted-text);
+  font-size: 0.85rem;
+}
+.cta-flecha {
+  margin-left: auto;
+  color: var(--color-muted-text);
+  flex: none;
+}
+
+/* ---------- estadísticas locales ---------- */
+.stats {
+  margin-top: var(--espacio-4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--espacio-3);
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--color-muted-text);
+}
+.stats .ok,
+.stats .ko {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+.stats .ok svg { color: var(--color-accent); }
+.stats .ko svg { color: var(--color-destructive); }
+.stats-borrar {
+  border: none;
+  background: none;
+  color: var(--color-muted-text);
+  text-decoration: underline;
+  font-size: 0.8rem;
+  padding: var(--espacio-2);
+  min-height: 44px;
+}
+
+/* ---------- instalar sin internet ---------- */
+.boton-instalar {
+  display: none;
+  align-items: center;
+  gap: var(--espacio-2);
+  margin: var(--espacio-4) auto 0;
+  padding: var(--espacio-3) var(--espacio-4);
+  min-height: 48px;
+  border: 1px dashed var(--color-primary);
+  border-radius: var(--radio-1);
+  background: transparent;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+[data-tema="oscuro"] .boton-instalar {
+  color: var(--color-primary);
+}
+.boton-instalar.visible {
+  display: flex;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+/* ---------- aliado ---------- */
+.aliado {
+  margin-top: var(--espacio-5);
+  display: flex;
+  gap: var(--espacio-3);
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radio-2);
+  padding: var(--espacio-3);
+  background: var(--color-muted);
+  color: inherit;
+  text-decoration: none;
+}
+.aliado:hover {
+  border-color: var(--color-secondary);
+}
+.aliado-ico {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radio-1);
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  flex: none;
+  color: var(--color-secondary);
+}
+.aliado small {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  color: var(--color-muted-text);
+}
+.aliado b {
+  display: block;
+  font-size: 0.95rem;
+}
+.aliado span.aliado-sub {
+  font-size: 0.82rem;
+  color: var(--color-muted-text);
+}
+
+/* ---------- pie ---------- */
+.pie {
+  margin-top: var(--espacio-6);
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-muted-text);
+}
+.pie a {
+  color: inherit;
+}
+
+/* ---------- modales ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--espacio-3);
+  z-index: 100;
+}
+.modal.abierto {
+  display: flex;
+}
+.modal-caja {
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  border-radius: var(--radio-2);
+  max-width: 420px;
+  width: 100%;
+  padding: var(--espacio-4);
+  border: 1px solid var(--color-border);
+}
+.modal-caja h2 {
+  font-family: var(--font-display);
+  margin: 0 0 var(--espacio-2);
+}
+.modal-caja ol,
+.modal-caja p {
+  font-size: 0.92rem;
+  color: var(--color-muted-text);
+}
+.modal-caja ol {
+  padding-left: var(--espacio-4);
+  margin: var(--espacio-2) 0 var(--espacio-4);
+  text-align: left;
+}
+.modal-caja li {
+  margin-bottom: var(--espacio-2);
+}
+.boton-modal {
+  width: 100%;
+  min-height: 48px;
+  border: none;
+  border-radius: var(--radio-1);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 700;
+}
+
+/* ---------- móvil ---------- */
+@media (min-width: 768px) {
+  .acciones {
+    grid-template-columns: 1fr;
+  }
+  .preview,
+  .cta {
+    padding-inline: var(--espacio-5);
+  }
+}

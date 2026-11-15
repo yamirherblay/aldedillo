@@ -1,0 +1,140 @@
+/* ============================================================
+   AL DEDILLO — tokens del sistema de diseño (CONSTITUCION.md)
+   Piel institucional: azul marino + EB Garamond / Atkinson Hyperlegible
+   Modo claro y oscuro definidos JUNTOS. Sin CDNs: fuentes locales.
+   ============================================================ */
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("../fonts/atkinson-hyperlegible-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("../fonts/atkinson-hyperlegible-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../fonts/eb-garamond-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../fonts/eb-garamond-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* --- color: modo claro (default) --- */
+  --color-primary: #1e3a5f;
+  --color-on-primary: #ffffff;
+  --color-secondary: #2563eb;
+  --color-accent: #059669;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-foreground: #0f172a;
+  --color-muted: #f1f3f5;
+  --color-muted-text: #475569;
+  --color-border: #e4e7eb;
+  --color-destructive: #dc2626;
+  --color-ring: #1e3a5f;
+  --color-gold: #b45309;        /* acento normativo (badge de vigencia) */
+
+  /* --- tipografía --- */
+  --font-display: "EB Garamond", Georgia, serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --font-codigo: ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;
+  --escala-texto: 12 14 16 18 24 32;
+  --texto-base: 1rem;            /* 16px: sin auto-zoom en iOS */
+  --linea-cuerpo: 1.6;
+
+  /* --- espaciado (ritmo 4/8) --- */
+  --espacio-1: 4px;
+  --espacio-2: 8px;
+  --espacio-3: 16px;
+  --espacio-4: 24px;
+  --espacio-5: 32px;
+  --espacio-6: 48px;
+
+  /* --- forma --- */
+  --radio-1: 8px;
+  --radio-2: 14px;
+  --radio-chip: 6px;
+  --ancho-contenido: 640px;
+
+  /* --- movimiento: sutil (dial motion 3/10) --- */
+  --dur-1: 150ms;
+  --dur-2: 250ms;
+  --easing: cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+[data-tema="oscuro"] {
+  --color-primary: #93b4e0;
+  --color-on-primary: #0b1d3a;
+  --color-secondary: #7ea8f0;
+  --color-accent: #34d399;
+  --color-background: #0d1526;
+  --color-surface: #16213a;
+  --color-foreground: #e6edf7;
+  --color-muted: #1d2a44;
+  --color-muted-text: #9fb0c9;
+  --color-border: #2a3a58;
+  --color-destructive: #f87171;
+  --color-ring: #93b4e0;
+  --color-gold: #f0b429;
+}
+
+/* --- estado base --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--texto-base);
+  line-height: var(--linea-cuerpo);
+  color: var(--color-foreground);
+  background: var(--color-background);
+  transition: background var(--dur-2) var(--easing), color var(--dur-2) var(--easing);
+}
+:focus-visible {
+  outline: 3px solid var(--color-ring);
+  outline-offset: 2px;
+  border-radius: var(--radio-1);
+}
+[hidden] {
+  display: none !important;   /* el atributo hidden siempre gana sobre display */
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+a {
+  color: var(--color-secondary);
+}
+svg {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Al Dedillo — El SNA al dedillo",
+  "short_name": "Al Dedillo",
+  "description": "Consulta, examina y certifícate con el Manual de procedimientos de las acciones de prevención y control (Res. 364/2023, Cuba). Recopilación de estudio sin valor oficial.",
+  "lang": "es",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e3a5f",
+  "icons": [
+    {
+      "src": "icons/icono-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icono-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icono.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

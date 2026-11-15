@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Al Dedillo — El SNA al dedillo: consulta, examina, certifícate</title>
+<meta name="description" content="Herramienta de estudio y consulta para auditores del Sistema Nacional de Auditoría de Cuba, basada en la Resolución 364/2023 (Manual de procedimientos de las acciones de prevención y control). Recopilación de estudio sin valor oficial.">
+<meta name="theme-color" content="#1e3a5f">
+<link rel="icon" href="icons/icono.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icono-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/entrada.css">
+<script src="data/preguntas.js"></script>
+</head>
+<body>
+<div class="pagina">
+
+  <header class="barra">
+    <a class="marca" href="#inicio" aria-label="Al Dedillo, inicio">
+      <svg class="marca-escudo" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="14" fill="#1e3a5f"/><rect x="27" y="11" width="29" height="17" rx="4" fill="#f8fafc" stroke="#059669" stroke-width="2.5"/><text x="41.5" y="23.5" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#1e3a5f">001</text><rect x="31" y="28" width="5" height="4" rx="1" fill="#f8fafc"/><rect x="47" y="28" width="5" height="4" rx="1" fill="#f8fafc"/><path d="M14 30 L14 51 L20 45.5 L23.5 53 L28.5 50.5 L25 43.5 L32.5 43.5 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2" stroke-linejoin="round"/><path d="M8 34 h4 M10 44 l3.5-1.5" stroke="#059669" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <span class="marca-texto"><b>Al Dedillo</b><small>SNA · Res. 364/2023</small></span>
+    </a>
+    <button class="boton-tema" type="button" id="boton-tema" aria-pressed="false">
+      <svg class="ico-luna" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.5A8.5 8.5 0 0 1 10.5 4 8.5 8.5 0 1 0 20 13.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <svg class="ico-sol" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span id="tema-texto">Modo oscuro</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="titulo">
+      <span class="hero-kicker"><span class="punto-vigencia" aria-hidden="true"></span> Res. 364/2023 · Versión 2023 · vigente</span>
+      <h1 id="titulo">Al Dedillo</h1>
+      <p class="hero-slogan">El SNA <strong>al dedillo</strong>: consulta, examina, certifícate.
+        El Manual de procedimientos de las acciones de prevención y control, completo, en tu bolsillo y <strong>sin internet</strong>.</p>
+    </section>
+
+    <section class="preview" aria-label="Pregunta de muestra">
+      <div class="preview-cabecera">
+        <small>Pregunta de muestra</small>
+        <span class="chip" id="preview-codigo">…</span>
+      </div>
+      <p class="preview-texto" id="preview-enunciado"></p>
+      <div class="preview-opciones" id="preview-opciones"></div>
+      <p class="preview-explicacion">
+        <span class="chip" id="preview-ref">…</span>
+        <span id="preview-explicacion"></span>
+      </p>
+    </section>
+
+    <nav class="acciones" aria-label="Secciones del producto">
+      <a class="cta cta-principal" href="app.html#manual">
+        <span class="cta-ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5Z M14 3v5h5 M8 12h8M8 16h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        <span><b>Consultar el Manual</b><small>Tomo I y Tomo II, navegando por código</small></span>
+        <span class="cta-flecha" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a class="cta" href="app.html#curso">
+        <span class="cta-ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 10v5c0 1.5 3 3 6 3s6-1.5 6-3v-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </span>
+        <span><b>Educarse</b><small>Los puntos que más golpean, con rutas por fase</small></span>
+        <span class="cta-flecha" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a class="cta" href="app.html#examen">
+        <span class="cta-ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="m7.5 12.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span><b>Examinarme</b><small>Simulacros con retroalimentación al dedillo</small></span>
+        <span class="cta-flecha" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </nav>
+
+    <div class="stats" id="stats" hidden>
+      <span class="ok"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8.5 12.5 2.5 2.5 5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span id="stats-ok">0</span></span>
+      <span class="ko"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m9 9 6 6M15 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span id="stats-ko">0</span></span>
+      <button class="stats-borrar" type="button" id="stats-borrar">Reiniciar estadísticas</button>
+    </div>
+
+    <button class="boton-instalar" type="button" id="boton-instalar">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Usar sin internet
+    </button>
+
+    <a class="aliado" href="https://vialcuba-pages.intenave.com/" target="_blank" rel="noopener">
+      <span class="aliado-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4Z M20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+      <span class="aliado-cuerpo">
+        <small>También del ecosistema</small>
+        <b>Código Vial Cuba</b>
+        <span class="aliado-sub">¿Preparas el examen teórico de conducción? Estudia la Ley 109 en VialCuba.</span>
+      </span>
+    </a>
+  </main>
+
+  <footer class="pie">
+    <p>Recopilación de estudio <strong>sin valor oficial</strong>, basada en la Resolución 364/2023 de la Contraloría General de la República
+    (Gaceta Oficial No. 119 de 2023, GOC-2023-980-O119). Toda información debe contrastarse con la legislación vigente publicada en la
+    Gaceta Oficial de la República de Cuba.</p>
+  </footer>
+</div>
+
+<!-- Modal: cómo usar sin internet en iOS -->
+<div class="modal" id="modal-instalar" role="dialog" aria-modal="true" aria-labelledby="titulo-instalar">
+  <div class="modal-caja">
+    <h2 id="titulo-instalar">Usar sin internet</h2>
+    <p>Guarda Al Dedillo en tu dispositivo:</p>
+    <ol>
+      <li>Toca el botón <strong>Compartir</strong> del navegador <svg width="14" height="14" viewBox="0 0 24 24" style="display:inline;vertical-align:-2px" aria-hidden="true"><path d="M12 3v12m0-12 4 4m-4-4-4 4M5 14v6h14v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
+      <li>Elige <strong>Agregar a pantalla de inicio</strong></li>
+      <li>Confirma</li>
+    </ol>
+    <button class="boton-modal" type="button" data-cerrar-modal>Entendido</button>
+  </div>
+</div>
+
+<script src="js/entrada.js"></script>
+</body>
+</html>
