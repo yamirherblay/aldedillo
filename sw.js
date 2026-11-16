@@ -9,7 +9,7 @@
 // caché viejo hasta que el SW nuevo se active.
 // ============================================================
 
-const CACHE_VERSION = "v7";
+const CACHE_VERSION = "v8";
 const CACHE_NOMBRE = `al-dedillo-${CACHE_VERSION}`;
 
 const PRECACHE = [
