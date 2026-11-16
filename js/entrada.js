@@ -59,8 +59,8 @@ function chipDeReferencia(ref) {
 }
 
 function renderizarPreview() {
-  const pregunta = window.DEDILLO_PREGUNTAS.preguntas
-    .find((p) => p.id === "P2") || window.DEDILLO_PREGUNTAS.preguntas[0];
+  const banco = window.DEDILLO_PREGUNTAS.preguntas;
+  const pregunta = banco.find((p) => p.muestra) || banco[0];
 
   document.getElementById("preview-codigo").textContent =
     pregunta.referencia.codigo === "intro" ? "Introducción" : pregunta.referencia.codigo;

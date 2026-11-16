@@ -54,6 +54,7 @@ Un registro (`ui/router.js`) las mapea al hash (`#manual`, `#examen`, `#progreso
 - **`const` por defecto**, funciones puras donde se pueda, módulos ES, **cero variables globales**.
 - **Delegación de eventos:** un listener por contenedor, nunca uno por elemento generado.
 - **Números del dominio en `data/constantes.js`:** plazos (5/10/20/30 días hábiles), 70% para aprobar, versión normativa. Una resolución futura cambia cifras sin tocar lógica.
+- **Banco de preguntas:** 100 preguntas (40 situacionales + 40 de contenido + 20 de plazos y cálculo aplicado). IDs `SIT-001…`, `CON-001…`, `PLA-001…`; cada una lleva `categoria`, `puntoGolpe`, `fase`, `dificultad`, `explicacion` y `referencia` exacta (código y página). `meta.bancoVersion` invalida sesiones guardadas si el banco cambia.
 - **JSDoc ligera obligatoria en `core/`** (las funciones puras merecen contrato escrito), no en todas partes.
 - **ESLint + Prettier** sin build (solo dev), como cinturón de seguridad automático.
 - **Iconos SVG inline** (estilo Lucide). Nada de emoji como icono estructural.
@@ -98,10 +99,10 @@ La lógica (motor de examen, buscador, navegación por código) es independiente
 | Fase | Alcance | Estado |
 |------|---------|--------|
 | 0.0 | Estructura de directorios + Constitución | ✅ Completada |
-| 0 | Extracción del PDF → `data/` (31 secciones + 91 plantillas + constantes + fuentes + 6 preguntas + puntos de golpe; verificación por muestreo) | ✅ Completada — pendiente validación humana de los auditores |
+| 0 | Extracción del PDF → `data/` (31 secciones + 91 plantillas + constantes + fuentes + 100 preguntas 40/40/20 + puntos de golpe; verificación por muestreo) | ✅ Completada — pendiente validación humana de los auditores |
 | 1 | Entrada (puerta única): landing «Manual vivo», hero partido con demo de producto, badge de vigencia, preview de pregunta, CTAs, instalar sin internet, dark mode | ✅ Completada (verificada en claro/oscuro con capturas) |
 | 2 | Shell de consulta: navegación por código, plantillas, buscador, glosario, plazos, educarse, progreso, fuentes (verificada en claro/oscuro con capturas) | ✅ Completada |
-| 3 | Examen con retroalimentación (chip → sección exacta del Manual): motor en `core/examen.js`, sesión persistente, exámenes por punto de golpe | ✅ Completada (verificada con capturas del flujo completo) |
-| 4 | Offline (Service Worker) + prueba en condiciones reales (despliegue: Cloudflare Pages ✅) | ✅ Hecha (`al-dedillo-v6`, 39 entradas + `.docx` en caché de uso) |
+| 3 | Examen con retroalimentación (chip → sección exacta del Manual): motor en `core/examen.js`, sesión persistente, banco 40/40/20, examen 20×5 (8/8/4), práctica por categoría y por punto de golpe | ✅ Completada (verificada con capturas del flujo completo) |
+| 4 | Offline (Service Worker) + prueba en condiciones reales (despliegue: Cloudflare Pages ✅) | ✅ Hecha (`al-dedillo-v7`, 39 entradas + `.docx` en caché de uso) |
 | 5 | Plantillas del Tomo II en Word: 89 códigos · 65 formularios · 86 guías (151 `.docx`), descarga desde la ficha y caché offline del documento | ✅ Hecha (verificada en navegador) |
 | 6 | Landing «Manual vivo» + auditoría de contraste WCAG 2.2 AA | ✅ Hecha (320–1280 px, claro/oscuro) |

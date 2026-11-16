@@ -1,9 +1,9 @@
 // ============================================================
-// ui/vistas/curso.js — «Educarse»: los puntos que más golpean + rutas.
+// ui/vistas/curso.js — «Educarse»: puntos que más golpean, categorías y rutas.
 // #curso                → los 6 puntos de golpe
 // #curso/1..6           → detalle de un punto con sus códigos y simulacro
 // ============================================================
-import { seccionPorCodigo } from "../../core/datos.js";
+import { categoriasPreguntas, preguntas, seccionPorCodigo } from "../../core/datos.js";
 import { chip, escapar, breadcrumb, vistaVacia } from "../componentes.js";
 
 function itemSeccion(codigo) {
@@ -27,11 +27,21 @@ function tarjetaPunto(p) {
   </a>`;
 }
 
+function tarjetaCategoria(c) {
+  const total = preguntas().filter((q) => q.categoria === c.id).length;
+  return `<a class="lista-item lista-item-col" href="#examen/${c.id}">
+    <b>${escapar(c.titulo)} · ${total} preguntas</b>
+    <small>${escapar(c.descripcion)}</small>
+  </a>`;
+}
+
 function listado() {
   const curso = window.DEDILLO_CURSO;
   return `
     <header class="vista-cabecera"><h1>Educarse</h1><p class="vista-sub">Lo que más golpea al auditor en materia normativa, según el Manual.</p></header>
     <div class="lista">${curso.puntosGolpe.map(tarjetaPunto).join("")}</div>
+    <section class="grupo"><h2>Practicar por categoría</h2>
+      <div class="lista">${categoriasPreguntas().map(tarjetaCategoria).join("")}</div></section>
     <section class="grupo"><h2>Rutas de estudio por fase</h2>
       <div class="lista">${curso.rutas
         .map(

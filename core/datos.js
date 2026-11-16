@@ -48,6 +48,16 @@ export function preguntas() {
   return window.DEDILLO_PREGUNTAS.preguntas;
 }
 
+/** Metadatos del banco (versión, estado de validación). */
+export function metaPreguntas() {
+  return window.DEDILLO_PREGUNTAS.meta || {};
+}
+
+/** Catálogo de categorías del banco, con título y descripción. */
+export function categoriasPreguntas() {
+  return window.DEDILLO_PREGUNTAS.categorias || [];
+}
+
 export function constantes() {
   return window.DEDILLO_CONSTANTES;
 }

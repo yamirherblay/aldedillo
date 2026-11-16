@@ -2,6 +2,7 @@
 // core/estado.js — EL store central (Patrón 2 de la CONSTITUCION.md).
 // Prohibido repartir estado en variables sueltas por módulo.
 // ============================================================
+import { sesionEsValida } from "./examen.js";
 
 const CLAVES = {
   tema: "al-dedillo-tema",
@@ -39,7 +40,9 @@ export function iniciarEstado() {
   estado.vistos = new Set(Array.isArray(vistosGuardados) ? vistosGuardados : []);
   const stats = leer(CLAVES.stats);
   estado.examen = stats && typeof stats.ok === "number" ? { ok: stats.ok, ko: stats.ko } : { ok: 0, ko: 0 };
-  estado.examenSesion = leer(CLAVES.examenSesion);
+  const sesionGuardada = leer(CLAVES.examenSesion);
+  estado.examenSesion = sesionEsValida(sesionGuardada) ? sesionGuardada : null;
+  if (sesionGuardada && !estado.examenSesion) localStorage.removeItem(CLAVES.examenSesion);
   aplicarTema();
 }
 

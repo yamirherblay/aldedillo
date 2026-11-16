@@ -41,14 +41,14 @@ Parámetros de QA (solo verificación, no afectan uso normal):
 | Fase | Alcance | Estado |
 |---|---|---|
 | 0.0 | Estructura + Constitución | ✅ |
-| 0 | Extracción del PDF → `data/` (31 secciones Tomo I, 91 plantillas Tomo II, constantes, fuentes, 6 preguntas, curso) | ✅ — pendiente validación humana |
+| 0 | Extracción del PDF → `data/` (31 secciones Tomo I, 91 plantillas Tomo II, constantes, fuentes, 100 preguntas 40/40/20, curso) | ✅ — pendiente validación humana |
 | 1 | Página de entrada (`index.html`): landing «Manual vivo», hero partido con demo de producto, CTAs, preview de pregunta, instalación y dark mode | ✅ verificada |
 | 2 | App de consulta: 9 vistas, buscador offline, glosario, plazos, progreso, reflujo de texto, layout amplio | ✅ verificada |
-| 3 | Examen: motor en `core/examen.js`, retroalimentación con chips, sesión persistente, exámenes por punto | ✅ verificada |
-| 4 | Service Worker (`sw.js`): precache de 39 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada (`al-dedillo-v6`) |
+| 3 | Examen: motor en `core/examen.js`, retroalimentación con chips, sesión persistente, examen 8/8/4 y práctica por categoría/punto | ✅ verificada |
+| 4 | Service Worker (`sw.js`): precache de 39 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada (`al-dedillo-v7`) |
 | 5 | Plantillas del Tomo II en Word: modelo `data/formularios.js`, 151 `.docx` (65 formularios + 86 guías), descarga desde la ficha, caché offline del documento | ✅ verificada |
 | 6 | Landing e identidad visual «Manual vivo» + auditoría de contraste WCAG 2.2 AA | ✅ verificada |
-| 7 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
+| 7 | (futuro) APK, administración con contraseña para editar contenido, más material de estudio | ⬜ |
 
 ## 4. Mapa de archivos
 
@@ -69,7 +69,7 @@ al-dedillo/
 │   ├── plantillas.js (425 KB · 91 entradas, 89 códigos únicos: P-…)
 │   ├── formularios.js (596 KB · modelo estructurado de los 89 códigos: bloques de la guía y del formulario + nombres de archivo Word)
 │   ├── constantes.js (plazos 5/10/20/30 días hábiles + 5 años; examen 20×5=70; error tolerable 50/75 %)
-│   ├── preguntas.js  (6 preguntas P1–P6 con puntoGolpe, correcta, explicacion, referencia)
+│   ├── preguntas.js  (100 preguntas SIT/CON/PLA 40/40/20, con categoria, puntoGolpe, correcta, explicacion y referencia)
 │   ├── curso.js      (6 puntos de golpe + 6 rutas de estudio)
 │   ├── glosario.js   (18 términos, páginas verificadas)
 │   └── fuentes.js    (cita de la norma + disclaimer)
@@ -78,7 +78,7 @@ al-dedillo/
 │   ├── estado.js     (store central; persiste tema, vistos, stats, sesión de examen)
 │   ├── buscador.js   (búsqueda sin acentos, longitud preservada → resaltado exacto)
 │   ├── texto.js      (reflujo: recompone párrafos partidos por el PDF; desguionar con lista blanca)
-│   └── examen.js     (motor: crearSesion/responder/respondidaActual/calificar; RNG inyectable)
+│   └── examen.js     (motor: sesión completa 8/8/4, práctica por categoría/punto, RNG inyectable)
 ├── ui/                      ← única capa que construye HTML y escucha eventos
 │   ├── router.js     (REGISTRO de vistas; único punto de render; conecta eventos UNA vez por contenedor)
 │   ├── componentes.js(chip, linkify (códigos → chips clicables), parrafos (usa reflujo), escalaPlazos…)
@@ -116,7 +116,7 @@ al-dedillo/
 - **El código normativo es un botón**: los H-codes/P-codes mencionados en cualquier texto se vuelven chips clicables (`ui/componentes.js` → `linkify`) que navegan a la sección/plantilla exacta.
 - **Reflujo de texto** (`core/texto.js`): los PDF parten líneas y palabras; se recompone al presentar (unión de líneas, guiones internos fuera de una lista blanca de compuestos legítimos: `contable-financiero`, `costo-beneficio`, `día-mes-año`…). Los `data/` no se tocan.
 - **Plantillas duplicadas**: la Gaceta publicó 2 formularios en dos páginas (P-0001-07, P-0002-07). `core/datos.js` los fusiona con rótulo «Gaceta, página N»; 91 entradas → 89 códigos. Total del índice de búsqueda: 138 (31 manual + 89 plantillas + 18 glosario).
-- **Examen**: n = min(20, banco) → hoy 6 × 16,7 pts, 70 aprueba. En exámenes por punto, los puntos son **100/n de esa sesión** (2 preguntas = 50 c/u) para que aprobar sea alcanzable. Retroalimentación inmediata; el botón «Siguiente» avanza (responder() NO avanza). Contabilización única en el progreso, al pasar de `ultima` a `terminado`.
+- **Examen**: banco de 100 (40 situacionales + 40 de contenido + 20 de plazos). El examen completo toma 20 (8/8/4) a 5 puntos, 70 aprueba. La práctica por categoría toma hasta 20 de esa categoría; la práctica por punto de golpe toma hasta 20 de ese punto. En sesiones filtradas los puntos son **100/n de esa sesión**. Retroalimentación inmediata; el botón «Siguiente» avanza (responder() NO avanza). Contabilización única en el progreso, al pasar de `ultima` a `terminado`.
 - **Navegación móvil**: pestañas ≤ 5 (Manual/Buscar/Examen/Progreso/Más) + panel «Más» (Plantillas/Educarse/Plazos/Glosario/Fuentes/tema).
 - **Desktop amplio**: contenido pegado a la sidebar (hasta 1480 px, no centrado), listas en rejilla, texto de detalle a 2 columnas.
 - **Plantillas Word (Fase 5)**: `data/plantillas.js` (texto de la Gaceta) manda; `data/formularios.js` es el modelo de bloques generado y `plantillas/*.docx` la salida estática. Nada de librerías docx en el cliente (el navegador solo descarga).
@@ -132,20 +132,20 @@ al-dedillo/
 ## 8. Pendiente / siguiente
 
 1. **Fase 4 — offline + despliegue: ✅ hecha.**
-   - `sw.js`: precache de 39 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/` incluido `formularios.js`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v6`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
+   - `sw.js`: precache de 39 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/` incluido `formularios.js`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v7`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
    - Los `.docx` **no** entran en el precache (151 archivos, ~6 MB): se guardan en el caché de uso la primera vez que se descargan (`plantillas/*.docx`), así quedan disponibles sin conexión.
    - Despliegue: ✅ en Cloudflare Pages desde `yamirherblay/aldedillo` (sin build; la raíz del repo es la raíz del sitio).
    - **Bug de navegación corregido** (el que rompía el sitio desplegado): `peticion` ya es el `Request`; `peticion.request` era `undefined`, así que `fetch(undefined)` pedía `GET /undefined` y el 404 se servía como la página (la URL no cambiaba, sin error en consola). Además la variante con `peticion.request.url` lanzaba `TypeError` → página de error. Regla: en el SW usar `peticion.url` (texto) y `peticion` (Request), nunca `peticion.request`.
 2. **Fase 5 — plantillas Word: ✅ hecha.** 89 códigos con al menos un documento (151 en total), cero archivos faltantes. Quedan como aproximaciones editables (no bloquean): el detalle de aspectos de P-G02-11, las matrices simplificadas P-0001-04 y P-PC01-12, y las tablas de referencia P-D0001-12/14.
 3. **Re-extracción de tablas del Tomo I con `pdftotext -layout`**: las tablas complejas (escala de materialidad en H-001-0001-07, «Tareas y su descripción») quedan entremezcladas. `-layout` las recupera mucho mejor, pero exige regenerar `data/manual.js` y repetir las verificaciones de fidelidad (31/31 secciones, 89/91 plantillas). Off: página impresa 3252 = página PDF 3 (offset 3249).
-4. **Validación por auditores** (contenido): 6 preguntas del banco, 6 puntos de golpe, 18 términos del glosario y los 151 documentos Word — todos marcados `borrador-pendiente-validacion` en sus `meta`.
-5. **Completar el banco a 20 preguntas** → el examen pasa a 20×5 automáticamente.
-6. Menor: unificar cuándo el chip de referencia de P1 («intro») podría enlazarse si se crea la sección del preámbulo.
+4. **Validación por auditores** (contenido): 100 preguntas (40/40/20), 6 puntos de golpe, 18 términos del glosario y los 151 documentos Word — todos marcados `borrador-pendiente-validacion` en sus `meta`.
+5. **Validar y ajustar el banco de 100** con los auditores; el motor ya toma 20×5 (8/8/4) y la práctica por categoría o punto hasta 20.
+6. Menor: unificar cuándo el chip de referencia «intro» podría enlazarse si se crea la sección del preámbulo.
 
 ## 9. Quirks técnicos (para no redescubrirlos)
 
 - **Headless Chrome** para capturas: `--headless=new --disable-gpu --force-device-scale-factor=1 --virtual-time-budget=3000` + `--window-size` **antes** de `--screenshot`; ancho mínimo ~500 px (menos ignora el ancho). Una carrera conocida hizo capturar a 780×493: repetir el comando lo arregla.
-- **Probar core en Node v16**: los módulos ES requieren copias `.mjs` en /tmp con el import `./datos.js` reescrito a ruta absoluta; los `data/` se importan por `file://` y setean `global.window`.
+- **Probar core en Node v16**: `tools/validar_preguntas.mjs` carga los `data/*.js` en `vm`, transforma mínimamente `core/examen.js` (quita el import y los `export`) y simula el motor sin depender de un `package.json` ESM.
 - `pdftotext` paginación: los números de página del texto son los **impresos de la Gaceta** (3252–3612), no los del PDF (361 páginas).
 - Generar PNG del logo por captura del SVG es racy: mejor re-escalar del 512 con LANCZOS.
 - **Service Worker**:
@@ -171,14 +171,14 @@ al-dedillo/
 
 - Fase 1: entrada en claro/oscuro (capturas).
 - Fase 2: las 9 vistas en claro/oscuro, desktop 1200/1480 y móvil 500; búsqueda («materialidad» → 19 resultados; «recurso apelación», «expediente cinco años» correctos); reflujo (0 guiones rotos de 785; compuestos preservados); fusión de P-0001-07.
-- Fase 3: motor simulado en Node (banco 5/6 → 83,3 aprueba; punto 2 → 2/2 = 100, 1/2 = 50 no aprueba); capturas del flujo completo (intro, fallo, acierto, resultado con desglose correcto) en claro/oscuro/móvil.
+- Fase 3: validador Node del banco de 100 (40/40/20, 31/31 secciones, 25/25/25/25 por letra) y simulación del motor (20 preguntas 8/8/4, 100/70/0, práctica por categoría y punto); capturas históricas del flujo completo (intro, fallo, acierto, resultado con desglose) en claro/oscuro/móvil.
 - Fase 4 (Chrome por CDP, perfil limpio):
   - Con red: `index.html` instala el SW y precachea 39/39; `app.html?marcador=E#manual` → «Manual · Al Dedillo»; buscador «materialidad» → 19 resultados y «expediente cinco años» → 4, ida y vuelta manual↔buscar; recarga correcta.
   - Sin red (servidor matado): recarga → «Buscar · Al Dedillo» con la app pintada; «materialidad» → 19 resultados; `#examen` → «Examen · Al Dedillo»; `/` e `index.html` → entrada. Cero peticiones a `/undefined`.
 - Fase 5 (Word + UI, Playwright con Chrome del sistema):
   - 89 códigos · 65 formularios · 86 guías = **151 `.docx`**, 0 faltantes y 0 códigos sin documento; modelo de 596 KB.
   - Ficha `#plantillas/P-0001-01`: tarjeta «Documentos de trabajo», dos botones, descarga real del formulario (39 KB) y de la guía; texto de la Gaceta plegado; cero errores de consola.
-  - SW `v6`: el `.docx` descargado entra en `al-dedillo-v6`; con `context.set_offline(True)` la ficha vuelve a pintar los dos botones y el documento responde 200 desde el caché.
+  - SW `v7`: el `.docx` descargado entra en `al-dedillo-v7`; con `context.set_offline(True)` la ficha vuelve a pintar los dos botones y el documento responde 200 desde el caché.
   - Como los `.docx` se guardan por URL, **cada cambio de plantillas exige subir `CACHE_VERSION`** (igual que `data/`): si no, los usuarios con el documento ya cacheado siguen viendo la versión vieja.
   - Revisión visual (LibreOffice → PDF → PNG) de los 46 formularios curados y de las guías; corregidos recortes de cabecera, páginas en blanco finales y tablas apaisadas.
   - Cartas y actas: las líneas que el PDF partía se recomponen en párrafos continuos (P-0002-01, P-0001-03, P-0002-03/04, P-G02-07, P-D0001-14); las tablas de referencia y los formularios curados no se tocan.
