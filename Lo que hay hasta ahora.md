@@ -45,7 +45,7 @@ Parámetros de QA (solo verificación, no afectan uso normal):
 | 1 | Página de entrada (`index.html`): hero, vigencia, preview de pregunta, CTAs, dark mode | ✅ verificada |
 | 2 | App de consulta: 9 vistas, buscador offline, glosario, plazos, progreso, reflujo de texto, layout amplio | ✅ verificada |
 | 3 | Examen: motor en `core/examen.js`, retroalimentación con chips, sesión persistente, exámenes por punto | ✅ verificada |
-| 4 | Service Worker (`sw.js`): precache de 39 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada (`al-dedillo-v4`) |
+| 4 | Service Worker (`sw.js`): precache de 39 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada (`al-dedillo-v5`) |
 | 5 | Plantillas del Tomo II en Word: modelo `data/formularios.js`, 151 `.docx` (65 formularios + 86 guías), descarga desde la ficha, caché offline del documento | ✅ verificada |
 | 6 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
 
@@ -128,7 +128,7 @@ al-dedillo/
 ## 8. Pendiente / siguiente
 
 1. **Fase 4 — offline + despliegue: ✅ hecha.**
-   - `sw.js`: precache de 39 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/` incluido `formularios.js`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v4`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
+   - `sw.js`: precache de 39 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/` incluido `formularios.js`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v5`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
    - Los `.docx` **no** entran en el precache (151 archivos, ~6 MB): se guardan en el caché de uso la primera vez que se descargan (`plantillas/*.docx`), así quedan disponibles sin conexión.
    - Despliegue: ✅ en Cloudflare Pages desde `yamirherblay/aldedillo` (sin build; la raíz del repo es la raíz del sitio).
    - **Bug de navegación corregido** (el que rompía el sitio desplegado): `peticion` ya es el `Request`; `peticion.request` era `undefined`, así que `fetch(undefined)` pedía `GET /undefined` y el 404 se servía como la página (la URL no cambiaba, sin error en consola). Además la variante con `peticion.request.url` lanzaba `TypeError` → página de error. Regla: en el SW usar `peticion.url` (texto) y `peticion` (Request), nunca `peticion.request`.
@@ -156,6 +156,7 @@ al-dedillo/
   - Una tabla al final del cuerpo **necesita** un párrafo después en OOXML; si ese párrafo sobra empuja una página en blanco. `generar_docx._sin_cola_vacia()` borra los párrafos vacíos finales.
   - Las líneas de escritura son tabulaciones con relleno subrayado (`_borde` + tab leader), no bordes de párrafo: así se imprimen y se llenan igual que el modelo.
   - En columnas estrechas, Arial no parte palabras largas: se guionizan a mano en la cabecera (`Asevera-\nción`) y las matrices densas bajan a 8 pt.
+  - El PDF parte los párrafos en líneas; `_unir_continuaciones()` recompone las que continúan la frase (sin puntuación final + inicio en minúscula/coma). Solo se aplica a formas automáticas, nunca a los specs curados.
   - `python-docx` no calcula anchos: los cm de `_anchos` se escriben en `tblGrid` y `tblLayout=fixed`; el total debe cuadrar con 16 cm (vertical) o 25,7 cm (apaisado).
   - Para revisar sin abrir Word: `soffice --headless --convert-to pdf` + `pdftoppm -png -r 70` + `montage` (LibreOffice 25.8, python-docx 1.2).
 - Probar el SW con **perfil de Chrome limpio** en cada corrida; un SW viejo del mismo origen enmascara los resultados.
@@ -173,5 +174,7 @@ al-dedillo/
 - Fase 5 (Word + UI, Playwright con Chrome del sistema):
   - 89 códigos · 65 formularios · 86 guías = **151 `.docx`**, 0 faltantes y 0 códigos sin documento; modelo de 596 KB.
   - Ficha `#plantillas/P-0001-01`: tarjeta «Documentos de trabajo», dos botones, descarga real del formulario (39 KB) y de la guía; texto de la Gaceta plegado; cero errores de consola.
-  - SW `v4`: el `.docx` descargado entra en `al-dedillo-v4`; con `context.set_offline(True)` la ficha vuelve a pintar los dos botones y el documento responde 200 desde el caché.
+  - SW `v5`: el `.docx` descargado entra en `al-dedillo-v5`; con `context.set_offline(True)` la ficha vuelve a pintar los dos botones y el documento responde 200 desde el caché.
+  - Como los `.docx` se guardan por URL, **cada cambio de plantillas exige subir `CACHE_VERSION`** (igual que `data/`): si no, los usuarios con el documento ya cacheado siguen viendo la versión vieja.
   - Revisión visual (LibreOffice → PDF → PNG) de los 46 formularios curados y de las guías; corregidos recortes de cabecera, páginas en blanco finales y tablas apaisadas.
+  - Cartas y actas: las líneas que el PDF partía se recomponen en párrafos continuos (P-0002-01, P-0001-03, P-0002-03/04, P-G02-07, P-D0001-14); las tablas de referencia y los formularios curados no se tocan.

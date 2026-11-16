@@ -2369,12 +2369,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        "a la entidad que"
-      ]
-     ]
-    ],
-    [
-     "campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "usted dirige, la que tendrá una duración estimada de <días hábiles>"
@@ -7012,12 +7011,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        "a la entidad <denominación"
-      ]
-     ]
-    ],
-    [
-     "parrafo_campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "o razón social del sujeto de la acción de prevención y control y número de la Orden de trabajo >"
@@ -7033,12 +7031,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ", durante el desarrollo de la misma se ha considerado realizar confirmación"
-      ]
-     ]
-    ],
-    [
-     "campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "externa a <relacionar objetivo de la confirmación>"
@@ -7054,22 +7051,32 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ", para lo cual se ha designado al"
+      ],
+      [
+       "t",
+       " "
+      ],
+      [
+       "t",
+       "auditor <nombre(s) y apellidos>, con número de carnet de identidad <número> y de inscripción en el Registro de Contralores y Auditores de la República de Cuba <número>"
+      ],
+      [
+       "t",
+       ", el que personalmente ofrecerá detalles acerca del trabajo a realizar y le informará los"
+      ],
+      [
+       "n",
+       "7"
+      ],
+      [
+       "t",
+       " "
+      ],
+      [
+       "t",
+       "resultados al concluir el mismo, siempre que no afecte la acción de prevención y control en ejecución."
       ]
      ]
-    ],
-    [
-     "parrafo",
-     "auditor <nombre(s) y apellidos>, con número de carnet de identidad <número> y de inscripción en el Registro de Contralores y Auditores de la República de Cuba <número>"
-    ],
-    [
-     "campo",
-     ", el que personalmente ofrecerá detalles acerca del trabajo a realizar y le informará los",
-     "7",
-     1
-    ],
-    [
-     "parrafo",
-     "resultados al concluir el mismo, siempre que no afecte la acción de prevención y control en ejecución."
     ],
     [
      "parrafo",
@@ -7465,12 +7472,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ", por lo que"
-      ]
-     ]
-    ],
-    [
-     "parrafo_campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "interesamos de usted realice la confirmación externa a la entidad <denominación o razón social de la entidad a confirmar>"
@@ -7486,12 +7492,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ", con el objetivo de comprobar <detallar los aspectos"
-      ]
-     ]
-    ],
-    [
-     "campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "a confirmar>"
@@ -7532,12 +7537,16 @@ window.DEDILLO_FORMULARIOS = {
      ]
     ],
     [
-     "parrafo",
-     "A continuación se relacionan los documentos primarios a confirmar: <relacionar documentos primarios, detallando su descripción, número, importe, en correspondencia con el"
-    ],
-    [
-     "campos",
+     "parrafo_campos",
      [
+      [
+       "t",
+       "A continuación se relacionan los documentos primarios a confirmar: <relacionar documentos primarios, detallando su descripción, número, importe, en correspondencia con el"
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "objetivo de la confirmación>"
@@ -7704,12 +7713,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ", le informo los resultados de la confirmación externa realizada"
-      ]
-     ]
-    ],
-    [
-     "campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "con <denominación o razón social de la entidad donde se realizó la confirmación>"
@@ -13169,12 +13177,16 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        "casos"
+      ],
+      [
+       "t",
+       " "
+      ],
+      [
+       "t",
+       "de incumplimiento en una muestra de 103 elementos, la tasa real de incumplimiento es: 4 / 103 × 100 ꞊3.88 %."
       ]
      ]
-    ],
-    [
-     "parrafo",
-     "de incumplimiento en una muestra de 103 elementos, la tasa real de incumplimiento es: 4 / 103 × 100 ꞊3.88 %."
     ],
     [
      "parrafo",
@@ -17888,7 +17900,7 @@ window.DEDILLO_FORMULARIOS = {
    "titulo": "ACTA DE CERTIFICACIÓN DEL INFORME ESPECIAL",
    "bloques": [
     [
-     "campos",
+     "parrafo_campos",
      [
       [
        "t",
@@ -17905,12 +17917,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ","
-      ]
-     ]
-    ],
-    [
-     "parrafo_campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "ejecutada a <enunciar>"
@@ -17962,12 +17973,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ", de la unidad organizativa de"
-      ]
-     ]
-    ],
-    [
-     "campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "auditoría del <enunciar>"
@@ -18024,12 +18034,11 @@ window.DEDILLO_FORMULARIOS = {
       [
        "t",
        ","
-      ]
-     ]
-    ],
-    [
-     "campos",
-     [
+      ],
+      [
+       "t",
+       " "
+      ],
       [
        "t",
        "días del mes de <enunciar>"

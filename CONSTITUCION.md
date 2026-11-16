@@ -86,6 +86,7 @@ La lógica (motor de examen, buscador, navegación por código) es independiente
 - `tools/generar_docx.py` + `tools/docx_plantillas.py` escriben `plantillas/*.docx`: A4, **Arial 12**, márgenes 2,5 cm (2 cm apaisado), encabezado con código y página de la Gaceta, pie `Modelo P-xxx · Res. 364/2023 · Página X de Y`.
 - **El cliente no genera Word**: los `.docx` son estáticos y se descargan desde la ficha de la plantilla; la app solo enlaza `archivos.formulario` / `archivos.guia`.
 - Fidelidad al modelo de la Gaceta: líneas y tablas vacías (sin controles de formulario), sin marca de la app dentro del documento, formulario y guía como documentos separados.
+- El extractor produce un bloque por línea del PDF; `_unir_continuaciones()` vuelve a unir las líneas que son el mismo párrafo (la anterior no cierra frase y la siguiente empieza en minúscula o coma). Es lo que mantiene legibles las cartas y actas.
 - Regla: si cambia el modelo o los specs, regenerar con `python3 tools/estructurar_todo.py && python3 tools/generar_docx.py`. Nunca editar un `.docx` a mano: el siguiente build lo pisa.
 
 ---
@@ -99,5 +100,5 @@ La lógica (motor de examen, buscador, navegación por código) es independiente
 | 1 | Entrada (puerta única): hero, badge de vigencia, preview de pregunta, 3 CTAs, instalar sin internet, dark mode | ✅ Completada (verificada en claro/oscuro con capturas) |
 | 2 | Shell de consulta: navegación por código, plantillas, buscador, glosario, plazos, educarse, progreso, fuentes (verificada en claro/oscuro con capturas) | ✅ Completada |
 | 3 | Examen con retroalimentación (chip → sección exacta del Manual): motor en `core/examen.js`, sesión persistente, exámenes por punto de golpe | ✅ Completada (verificada con capturas del flujo completo) |
-| 4 | Offline (Service Worker) + prueba en condiciones reales (despliegue: Cloudflare Pages ✅) | ✅ Hecha (`al-dedillo-v4`, 39 entradas + `.docx` en caché de uso) |
+| 4 | Offline (Service Worker) + prueba en condiciones reales (despliegue: Cloudflare Pages ✅) | ✅ Hecha (`al-dedillo-v5`, 39 entradas + `.docx` en caché de uso) |
 | 5 | Plantillas del Tomo II en Word: 89 códigos · 65 formularios · 86 guías (151 `.docx`), descarga desde la ficha y caché offline del documento | ✅ Hecha (verificada en navegador) |

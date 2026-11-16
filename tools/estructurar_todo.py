@@ -472,6 +472,63 @@ def parsear_formulario(texto, nombre):
     return {"titulo": titulo, "bloques": bloques}
 
 
+def _segs_de(bloque):
+    """Segmentos inline de un bloque de texto, o None si no lo es."""
+    if bloque[0] == "parrafo":
+        return [["t", bloque[1]]]
+    if bloque[0] in ("parrafo_campos", "campos"):
+        return [list(s) for s in bloque[1]]
+    if bloque[0] == "campo" and bloque[1].lstrip().startswith((",", ";")):
+        segs = [["t", bloque[1].strip()]]
+        if len(bloque) > 2 and bloque[2]:
+            segs.append(["n", bloque[2]])
+        return segs
+    return None
+
+
+def _texto_de(segs):
+    return "".join(str(s[1]) for s in segs if s[0] == "t")
+
+
+def _unir_continuaciones(bloques):
+    """Une líneas que el PDF partió dentro de un mismo párrafo.
+
+    El extractor produce un bloque por línea; en cartas y actas una frase
+    sigue en la línea siguiente (empieza en minúscula o en coma) y quedaba
+    como párrafo aparte. Se unen solo esos casos: el bloque anterior no
+    cierra frase y el siguiente continúa en minúscula.
+    """
+    salida = []
+    for bloque in bloques:
+        segs = _segs_de(bloque)
+        if salida and segs is not None:
+            previos = _segs_de(salida[-1])
+            if previos and previos[-1][0] in ("t", "n") and (
+                "parrafo_campos" in (salida[-1][0], bloque[0])
+                or (salida[-1][0] == "parrafo" and bloque[0] == "campos")
+            ):
+                ultimo = _texto_de(previos).rstrip()
+                primero = _texto_de(segs).lstrip()
+                sigue = (
+                    ultimo
+                    and primero
+                    and not re.search(r"[.:;?!]$", ultimo)
+                    and (primero[0].islower() or primero[0] in ",;)")
+                )
+                if sigue:
+                    nuevos = list(previos)
+                    if not str(nuevos[-1][1]).endswith(" ") \
+                            and primero[0] not in ",;.)":
+                        nuevos.append(["t", " "])
+                    nuevos.extend(segs)
+                    huecos = any(s[0] in ("n", "b", "f") for s in nuevos)
+                    salida[-1] = ["parrafo_campos", nuevos] if huecos \
+                        else ["parrafo", _texto_de(nuevos)]
+                    continue
+        salida.append(bloque)
+    return salida
+
+
 # ------------------------------------------------------------
 # principal
 # ------------------------------------------------------------
@@ -521,6 +578,9 @@ def main():
                 else:
                     guia = {"titulo": form["titulo"], "bloques": convertidos}
                 form = None
+
+        if form and not especifica:
+            form["bloques"] = _unir_continuaciones(form["bloques"])
 
         entrada = {
             "codigo": codigo,
