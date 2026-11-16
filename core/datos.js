@@ -72,6 +72,11 @@ export function plantillaPorCodigo(codigo) {
   return indicePlantillas.get(codigo) || null;
 }
 
+/** Estructura (bloques) y archivos Word de una plantilla del Tomo II. */
+export function formularioPorCodigo(codigo) {
+  return (window.DEDILLO_FORMULARIOS || {})[codigo] || null;
+}
+
 /** ¿Existe el código en cualquiera de los dos tomos? */
 export function existeCodigo(codigo) {
   return Boolean(seccionPorCodigo(codigo) || plantillaPorCodigo(codigo));

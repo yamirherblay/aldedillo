@@ -678,6 +678,37 @@ mark {
   color: #fff;
 }
 
+/* ---------- documentos de la plantilla ---------- */
+.documentos {
+  margin: var(--espacio-3) 0;
+  padding: var(--espacio-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radio-1);
+  background: var(--color-muted);
+}
+.documentos h2 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin: 0 0 6px;
+}
+.documentos .vista-sub {
+  margin: 0 0 var(--espacio-2);
+}
+.documentos-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.seccion-gaceta {
+  margin-top: var(--espacio-3);
+}
+.seccion-gaceta summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--color-muted-text);
+  padding: 6px 0;
+}
+
 /* ---------- estado vacío ---------- */
 .vacia {
   text-align: center;

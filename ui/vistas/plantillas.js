@@ -3,7 +3,7 @@
 // #plantillas                → listado agrupado por familia de códigos
 // #plantillas/P-001-G01      → guía de la plantilla
 // ============================================================
-import { plantillas, plantillaPorCodigo } from "../../core/datos.js";
+import { plantillas, plantillaPorCodigo, formularioPorCodigo } from "../../core/datos.js";
 import { marcarVisto } from "../../core/estado.js";
 import { chip, escapar, linkify, parrafos, badgePagina, breadcrumb, vistaVacia } from "../componentes.js";
 
@@ -46,6 +46,28 @@ function listado() {
     .join("");
 }
 
+function documentos(codigo) {
+  const f = formularioPorCodigo(codigo);
+  if (!f || !f.archivos) return "";
+  const botones = [];
+  if (f.archivos.formulario) {
+    botones.push(
+      `<a class="boton" href="plantillas/${encodeURIComponent(f.archivos.formulario)}" download>Descargar formulario (Word)</a>`,
+    );
+  }
+  if (f.archivos.guia) {
+    botones.push(
+      `<a class="boton boton-secundario" href="plantillas/${encodeURIComponent(f.archivos.guia)}" download>Descargar guía (Word)</a>`,
+    );
+  }
+  if (!botones.length) return "";
+  return `<section class="documentos">
+    <h2>Documentos de trabajo</h2>
+    <p class="vista-sub">Editables en Microsoft Word, Arial 12, listos para imprimir. El formulario es la plantilla para llenar; la guía explica cómo usarla.</p>
+    <div class="documentos-acciones">${botones.join("")}</div>
+  </section>`;
+}
+
 function detalle(codigo) {
   const p = plantillaPorCodigo(codigo);
   if (!p) return vistaVacia("No encontrada", `La plantilla ${codigo} no existe en el Tomo II.`, `<a class="boton" href="#plantillas">Volver a Plantillas</a>`);
@@ -58,12 +80,16 @@ function detalle(codigo) {
         <h1>${escapar(p.nombre)}</h1>
         ${badgePagina(p.pagina)}
       </header>
-      <div class="seccion-texto">${parrafos(p.texto)}</div>
+      ${documentos(p.codigo)}
+      <details class="seccion-gaceta">
+        <summary>Texto de la Gaceta (referencia)</summary>
+        <div class="seccion-texto">${parrafos(p.texto)}</div>
+      </details>
     </article>`;
 }
 
 export const render = (contenedor, estado, param) => {
-  contenedor.innerHTML = param ? detalle(param) : `<header class="vista-cabecera"><h1>Plantillas</h1><p class="vista-sub">Tomo II del Manual, agrupadas por familia.</p></header>${listado()}`;
+  contenedor.innerHTML = param ? detalle(param) : `<header class="vista-cabecera"><h1>Plantillas</h1><p class="vista-sub">Tomo II del Manual, agrupadas por familia. Cada plantilla incluye su formulario y su guía en Word.</p></header>${listado()}`;
 };
 
 export const eventos = () => {};

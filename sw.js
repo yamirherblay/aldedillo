@@ -9,7 +9,7 @@
 // caché viejo hasta que el SW nuevo se active.
 // ============================================================
 
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v4";
 const CACHE_NOMBRE = `al-dedillo-${CACHE_VERSION}`;
 
 const PRECACHE = [
@@ -51,6 +51,7 @@ const PRECACHE = [
   // contenido (data-as-JS)
   "data/manual.js",
   "data/plantillas.js",
+  "data/formularios.js",
   "data/constantes.js",
   "data/glosario.js",
   "data/preguntas.js",
@@ -119,6 +120,29 @@ self.addEventListener("fetch", (evento) => {
             .then((enCache) => enCache || caches.match(paginaDe(peticion.url)))
             .then((respuesta) => respuesta || Response.error())
         )
+    );
+    return;
+  }
+
+  // ---- documentos Word de las plantillas (plantillas/*.docx) ----
+  // Se guardan la primera vez que se descargan: así quedan disponibles
+  // sin conexión sin inflar el precache inicial (son ~150 archivos).
+  if (new URL(peticion.url).pathname.includes("/plantillas/")) {
+    evento.respondWith(
+      caches.match(peticion, { ignoreSearch: true }).then(
+        (enCache) =>
+          enCache ||
+          fetch(peticion).then((respuesta) => {
+            if (respuesta && respuesta.ok) {
+              const copia = respuesta.clone();
+              caches
+                .open(CACHE_NOMBRE)
+                .then((cache) => cache.put(peticion, copia))
+                .catch(() => {});
+            }
+            return respuesta;
+          })
+      )
     );
     return;
   }

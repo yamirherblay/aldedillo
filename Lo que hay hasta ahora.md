@@ -45,8 +45,9 @@ Parámetros de QA (solo verificación, no afectan uso normal):
 | 1 | Página de entrada (`index.html`): hero, vigencia, preview de pregunta, CTAs, dark mode | ✅ verificada |
 | 2 | App de consulta: 9 vistas, buscador offline, glosario, plazos, progreso, reflujo de texto, layout amplio | ✅ verificada |
 | 3 | Examen: motor en `core/examen.js`, retroalimentación con chips, sesión persistente, exámenes por punto | ✅ verificada |
-| 4 | Service Worker (`sw.js`): precache de 38 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada |
-| 5 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
+| 4 | Service Worker (`sw.js`): precache de 39 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada (`al-dedillo-v4`) |
+| 5 | Plantillas del Tomo II en Word: modelo `data/formularios.js`, 151 `.docx` (65 formularios + 86 guías), descarga desde la ficha, caché offline del documento | ✅ verificada |
+| 6 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
 
 ## 4. Mapa de archivos
 
@@ -65,6 +66,7 @@ al-dedillo/
 ├── data/                    ← data-as-JS: window.DEDILLO_*, lo único que se edita para actualizar contenido
 │   ├── manual.js   (530 KB · 31 secciones: H-001-0001…-10 tareas, H-001-G01/G02, H-002-APC…APC08)
 │   ├── plantillas.js (425 KB · 91 entradas, 89 códigos únicos: P-…)
+│   ├── formularios.js (596 KB · modelo estructurado de los 89 códigos: bloques de la guía y del formulario + nombres de archivo Word)
 │   ├── constantes.js (plazos 5/10/20/30 días hábiles + 5 años; examen 20×5=70; error tolerable 50/75 %)
 │   ├── preguntas.js  (6 preguntas P1–P6 con puntoGolpe, correcta, explicacion, referencia)
 │   ├── curso.js      (6 puntos de golpe + 6 rutas de estudio)
@@ -80,7 +82,14 @@ al-dedillo/
 │   ├── router.js     (REGISTRO de vistas; único punto de render; conecta eventos UNA vez por contenedor)
 │   ├── componentes.js(chip, linkify (códigos → chips clicables), parrafos (usa reflujo), escalaPlazos…)
 │   └── vistas/       manual · plantillas · buscar · curso · plazos · glosario · progreso · examen · fuentes
-└── tools/extraer.py         ← extractor reproducible PDF → data/ (python3 tools/extraer.py)
+├── plantillas/              ← 151 .docx estáticos (65 formularios + 86 guías), Arial 12, listos para imprimir
+└── tools/                   ← cadena de generación (Python; no se ejecuta en el navegador)
+    ├── extraer.py           ← PDF → data/manual.js y data/plantillas.js
+    ├── texto.py / nombres.py ← limpieza de texto y nombres de archivo
+    ├── formas_especificas.py ← 46 formularios con geometría curada (tablas, matrices, actas)
+    ├── estructurar_todo.py  ← data/plantillas.js → data/formularios.js (bloques)
+    ├── docx_plantillas.py   ← constructor .docx (estilos, campos PAGE/NUMPAGES, tablas, apaisado)
+    └── generar_docx.py      ← data/formularios.js → plantillas/*.docx
 ```
 
 ## 5. Patrones de la Constitución (resumen operativo)
@@ -109,17 +118,25 @@ al-dedillo/
 - **Examen**: n = min(20, banco) → hoy 6 × 16,7 pts, 70 aprueba. En exámenes por punto, los puntos son **100/n de esa sesión** (2 preguntas = 50 c/u) para que aprobar sea alcanzable. Retroalimentación inmediata; el botón «Siguiente» avanza (responder() NO avanza). Contabilización única en el progreso, al pasar de `ultima` a `terminado`.
 - **Navegación móvil**: pestañas ≤ 5 (Manual/Buscar/Examen/Progreso/Más) + panel «Más» (Plantillas/Educarse/Plazos/Glosario/Fuentes/tema).
 - **Desktop amplio**: contenido pegado a la sidebar (hasta 1480 px, no centrado), listas en rejilla, texto de detalle a 2 columnas.
+- **Plantillas Word (Fase 5)**: `data/plantillas.js` (texto de la Gaceta) manda; `data/formularios.js` es el modelo de bloques generado y `plantillas/*.docx` la salida estática. Nada de librerías docx en el cliente (el navegador solo descarga).
+  - Fidelidad al modelo oficial: Arial 12, A4, 2,5 cm de margen (2 cm apaisado), encabezado `código` + `Res. 364/2023 · Gaceta pág. N`, pie con campos reales `Página X de Y`; líneas de escritura con tabulación y relleno subrayado, no controles de formulario.
+  - Dos documentos por código: **formulario** (para llenar) y **guía** (instrucciones y anotaciones). Nombres `P-xxx - <nombre> - formulario.docx` / `… - guia.docx`, guardados en `archivos` para que la UI no invente rutas.
+  - Códigos duplicados: se usa la primera aparición (`setdefault`); P-0001-07 y P-0002-07 no duplican plantilla. Formularios que el extractor ve como texto plano se reclasifican como guía; `sin_guia` elimina guías de una línea en códigos que solo son tablas de referencia.
+  - Tablas anchas → sección apaisada; cabeceras largas en columnas estrechas → guion manual (`Asevera-\nción`) y 8 pt en las matrices densas; filas con altura mínima `AT_LEAST` para que el texto no se recorte.
+  - La ficha de plantilla muestra una tarjeta **Documentos de trabajo** con las descargas Word y deja el texto crudo de la Gaceta dentro de un `<details>` de referencia.
 
 ## 8. Pendiente / siguiente
 
 1. **Fase 4 — offline + despliegue: ✅ hecha.**
-   - `sw.js`: precache de 38 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v3`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
+   - `sw.js`: precache de 39 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/` incluido `formularios.js`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v4`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
+   - Los `.docx` **no** entran en el precache (151 archivos, ~6 MB): se guardan en el caché de uso la primera vez que se descargan (`plantillas/*.docx`), así quedan disponibles sin conexión.
    - Despliegue: ✅ en Cloudflare Pages desde `yamirherblay/aldedillo` (sin build; la raíz del repo es la raíz del sitio).
    - **Bug de navegación corregido** (el que rompía el sitio desplegado): `peticion` ya es el `Request`; `peticion.request` era `undefined`, así que `fetch(undefined)` pedía `GET /undefined` y el 404 se servía como la página (la URL no cambiaba, sin error en consola). Además la variante con `peticion.request.url` lanzaba `TypeError` → página de error. Regla: en el SW usar `peticion.url` (texto) y `peticion` (Request), nunca `peticion.request`.
-2. **Re-extracción de tablas del Tomo I con `pdftotext -layout`**: las tablas complejas (escala de materialidad en H-001-0001-07, «Tareas y su descripción») quedan entremezcladas. `-layout` las recupera mucho mejor, pero exige regenerar `data/manual.js` y repetir las verificaciones de fidelidad (31/31 secciones, 89/91 plantillas). Off: página impresa 3252 = página PDF 3 (offset 3249).
-3. **Validación por auditores** (contenido): 6 preguntas del banco, 6 puntos de golpe, 18 términos del glosario — todos marcados `borrador-pendiente-validacion` en sus `meta`.
-4. **Completar el banco a 20 preguntas** → el examen pasa a 20×5 automáticamente.
-5. Menor: unificar cuándo el chip de referencia de P1 («intro») podría enlazarse si se crea la sección del preámbulo.
+2. **Fase 5 — plantillas Word: ✅ hecha.** 89 códigos con al menos un documento (151 en total), cero archivos faltantes. Quedan como aproximaciones editables (no bloquean): el detalle de aspectos de P-G02-11, las matrices simplificadas P-0001-04 y P-PC01-12, y las tablas de referencia P-D0001-12/14.
+3. **Re-extracción de tablas del Tomo I con `pdftotext -layout`**: las tablas complejas (escala de materialidad en H-001-0001-07, «Tareas y su descripción») quedan entremezcladas. `-layout` las recupera mucho mejor, pero exige regenerar `data/manual.js` y repetir las verificaciones de fidelidad (31/31 secciones, 89/91 plantillas). Off: página impresa 3252 = página PDF 3 (offset 3249).
+4. **Validación por auditores** (contenido): 6 preguntas del banco, 6 puntos de golpe, 18 términos del glosario y los 151 documentos Word — todos marcados `borrador-pendiente-validacion` en sus `meta`.
+5. **Completar el banco a 20 preguntas** → el examen pasa a 20×5 automáticamente.
+6. Menor: unificar cuándo el chip de referencia de P1 («intro») podría enlazarse si se crea la sección del preámbulo.
 
 ## 9. Quirks técnicos (para no redescubrirlos)
 
@@ -134,6 +151,13 @@ al-dedillo/
   - `Network.emulateNetworkConditions(offline)` **no es fiable con SW**: a veces ni despacha el evento `fetch`. Para probar offline de verdad: matar el servidor (fallo de red auténtico) y luego recargar/navegar.
   - En una página de error de Chrome no corre JS (`caches` no se puede inspeccionar ahí): volver a una página válida para leer el caché.
   - `Page.reload` es la prueba dura: no usa el caché HTTP, obliga al SW a servir la navegación. Las navegaciones pueden «colar» por el caché HTTP y ocultar fallos del SW.
+- **Generación de Word**:
+  - `docx` con `AT_LEAST` en las filas: `EXACTLY` recorta las cabeceras de varias líneas; con `AT_LEAST` la fila crece lo necesario.
+  - Una tabla al final del cuerpo **necesita** un párrafo después en OOXML; si ese párrafo sobra empuja una página en blanco. `generar_docx._sin_cola_vacia()` borra los párrafos vacíos finales.
+  - Las líneas de escritura son tabulaciones con relleno subrayado (`_borde` + tab leader), no bordes de párrafo: así se imprimen y se llenan igual que el modelo.
+  - En columnas estrechas, Arial no parte palabras largas: se guionizan a mano en la cabecera (`Asevera-\nción`) y las matrices densas bajan a 8 pt.
+  - `python-docx` no calcula anchos: los cm de `_anchos` se escriben en `tblGrid` y `tblLayout=fixed`; el total debe cuadrar con 16 cm (vertical) o 25,7 cm (apaisado).
+  - Para revisar sin abrir Word: `soffice --headless --convert-to pdf` + `pdftoppm -png -r 70` + `montage` (LibreOffice 25.8, python-docx 1.2).
 - Probar el SW con **perfil de Chrome limpio** en cada corrida; un SW viejo del mismo origen enmascara los resultados.
 - Repo git en `main`, remoto `AlDEDILLO` (GitHub `yamirherblay/aldedillo`); Cloudflare Pages redespliega al hacer push. Tras cambiar `sw.js`, subir `CACHE_VERSION`.
 - El `logo.svg` no tiene `id`, por eso `app.html` lo lleva inline (no `<use>`).
@@ -144,5 +168,10 @@ al-dedillo/
 - Fase 2: las 9 vistas en claro/oscuro, desktop 1200/1480 y móvil 500; búsqueda («materialidad» → 19 resultados; «recurso apelación», «expediente cinco años» correctos); reflujo (0 guiones rotos de 785; compuestos preservados); fusión de P-0001-07.
 - Fase 3: motor simulado en Node (banco 5/6 → 83,3 aprueba; punto 2 → 2/2 = 100, 1/2 = 50 no aprueba); capturas del flujo completo (intro, fallo, acierto, resultado con desglose correcto) en claro/oscuro/móvil.
 - Fase 4 (Chrome por CDP, perfil limpio):
-  - Con red: `index.html` instala el SW y precachea 38/38; `app.html?marcador=E#manual` → «Manual · Al Dedillo»; buscador «materialidad» → 19 resultados y «expediente cinco años» → 4, ida y vuelta manual↔buscar; recarga correcta.
+  - Con red: `index.html` instala el SW y precachea 39/39; `app.html?marcador=E#manual` → «Manual · Al Dedillo»; buscador «materialidad» → 19 resultados y «expediente cinco años» → 4, ida y vuelta manual↔buscar; recarga correcta.
   - Sin red (servidor matado): recarga → «Buscar · Al Dedillo» con la app pintada; «materialidad» → 19 resultados; `#examen` → «Examen · Al Dedillo»; `/` e `index.html` → entrada. Cero peticiones a `/undefined`.
+- Fase 5 (Word + UI, Playwright con Chrome del sistema):
+  - 89 códigos · 65 formularios · 86 guías = **151 `.docx`**, 0 faltantes y 0 códigos sin documento; modelo de 596 KB.
+  - Ficha `#plantillas/P-0001-01`: tarjeta «Documentos de trabajo», dos botones, descarga real del formulario (39 KB) y de la guía; texto de la Gaceta plegado; cero errores de consola.
+  - SW `v4`: el `.docx` descargado entra en `al-dedillo-v4`; con `context.set_offline(True)` la ficha vuelve a pintar los dos botones y el documento responde 200 desde el caché.
+  - Revisión visual (LibreOffice → PDF → PNG) de los 46 formularios curados y de las guías; corregidos recortes de cabecera, páginas en blanco finales y tablas apaisadas.
