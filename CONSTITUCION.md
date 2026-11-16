@@ -71,6 +71,8 @@ Un registro (`ui/router.js`) las mapea al hash (`#manual`, `#examen`, `#progreso
 - **Nombre:** Al Dedillo
 - **Slogan:** "El SNA al dedillo: consulta, examina, certifícate"
 - **Piel:** institucional — azul marino `#1E3A5F`, tipografía **Atkinson Hyperlegible** (autoalojada), **chips de código** (`001 · 0002 · Tarea 07`, `H-001-0001-07`) como firma visual, **escala de plazos** (5/10/20/30 días hábiles) como pieza única del producto.
+- **Landing (Fase 6):** dirección **«Manual vivo»**: el producto como argumento visual, con una demo en HTML/CSS (buscador, chip, descarga Word y escala de plazos). Mobile first; hero partido desde 768 px; sin imágenes externas ni CDNs.
+- **Contraste WCAG 2.2 AA:** `#047857` (claro) / `#34d399` (oscuro) para texto verde; `#059669` solo para iconos, fondos y estados no textuales. Bordes de controles con `--color-control-border` (`#64748b` / `#6b82a8`). Los bordes de tarjetas y separadores son decorativos.
 - **Dark mode desde el MVP**, con toggle y preferencia persistida.
 - **Logotipo:** dedo índice señalando un chip de código.
 
@@ -97,8 +99,9 @@ La lógica (motor de examen, buscador, navegación por código) es independiente
 |------|---------|--------|
 | 0.0 | Estructura de directorios + Constitución | ✅ Completada |
 | 0 | Extracción del PDF → `data/` (31 secciones + 91 plantillas + constantes + fuentes + 6 preguntas + puntos de golpe; verificación por muestreo) | ✅ Completada — pendiente validación humana de los auditores |
-| 1 | Entrada (puerta única): hero, badge de vigencia, preview de pregunta, 3 CTAs, instalar sin internet, dark mode | ✅ Completada (verificada en claro/oscuro con capturas) |
+| 1 | Entrada (puerta única): landing «Manual vivo», hero partido con demo de producto, badge de vigencia, preview de pregunta, CTAs, instalar sin internet, dark mode | ✅ Completada (verificada en claro/oscuro con capturas) |
 | 2 | Shell de consulta: navegación por código, plantillas, buscador, glosario, plazos, educarse, progreso, fuentes (verificada en claro/oscuro con capturas) | ✅ Completada |
 | 3 | Examen con retroalimentación (chip → sección exacta del Manual): motor en `core/examen.js`, sesión persistente, exámenes por punto de golpe | ✅ Completada (verificada con capturas del flujo completo) |
-| 4 | Offline (Service Worker) + prueba en condiciones reales (despliegue: Cloudflare Pages ✅) | ✅ Hecha (`al-dedillo-v5`, 39 entradas + `.docx` en caché de uso) |
+| 4 | Offline (Service Worker) + prueba en condiciones reales (despliegue: Cloudflare Pages ✅) | ✅ Hecha (`al-dedillo-v6`, 39 entradas + `.docx` en caché de uso) |
 | 5 | Plantillas del Tomo II en Word: 89 códigos · 65 formularios · 86 guías (151 `.docx`), descarga desde la ficha y caché offline del documento | ✅ Hecha (verificada en navegador) |
+| 6 | Landing «Manual vivo» + auditoría de contraste WCAG 2.2 AA | ✅ Hecha (320–1280 px, claro/oscuro) |

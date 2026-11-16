@@ -14,6 +14,7 @@
 <script src="data/preguntas.js"></script>
 </head>
 <body>
+<a class="salto" href="#contenido">Saltar al contenido</a>
 <div class="pagina">
 
   <header class="barra">
@@ -21,68 +22,188 @@
       <svg class="marca-escudo" viewBox="0 0 64 64" aria-hidden="true"><rect x="2" y="2" width="60" height="60" rx="14" fill="#1e3a5f"/><rect x="27" y="11" width="29" height="17" rx="4" fill="#f8fafc" stroke="#059669" stroke-width="2.5"/><text x="41.5" y="23.5" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#1e3a5f">001</text><rect x="31" y="28" width="5" height="4" rx="1" fill="#f8fafc"/><rect x="47" y="28" width="5" height="4" rx="1" fill="#f8fafc"/><path d="M14 30 L14 51 L20 45.5 L23.5 53 L28.5 50.5 L25 43.5 L32.5 43.5 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2" stroke-linejoin="round"/><path d="M8 34 h4 M10 44 l3.5-1.5" stroke="#059669" stroke-width="2.5" stroke-linecap="round"/></svg>
       <span class="marca-texto"><b>Al Dedillo</b><small>SNA · Res. 364/2023</small></span>
     </a>
-    <button class="boton-tema" type="button" id="boton-tema" aria-pressed="false">
-      <svg class="ico-luna" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.5A8.5 8.5 0 0 1 10.5 4 8.5 8.5 0 1 0 20 13.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-      <svg class="ico-sol" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <span id="tema-texto">Modo oscuro</span>
-    </button>
+    <div class="barra-acciones">
+      <a class="barra-app" href="app.html">Abrir la app <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <button class="boton-tema" type="button" id="boton-tema" aria-pressed="false">
+        <svg class="ico-luna" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.5A8.5 8.5 0 0 1 10.5 4 8.5 8.5 0 1 0 20 13.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <svg class="ico-sol" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span id="tema-texto">Modo oscuro</span>
+      </button>
+    </div>
   </header>
 
-  <main>
-    <section class="hero" aria-labelledby="titulo">
-      <span class="hero-kicker"><span class="punto-vigencia" aria-hidden="true"></span> Res. 364/2023 · Versión 2023 · vigente</span>
-      <h1 id="titulo">Al Dedillo</h1>
-      <p class="hero-slogan">El SNA <strong>al dedillo</strong>: consulta, examina, certifícate.
-        El Manual de procedimientos de las acciones de prevención y control, completo, en tu bolsillo y <strong>sin internet</strong>.</p>
-    </section>
-
-    <section class="preview" aria-label="Pregunta de muestra">
-      <div class="preview-cabecera">
-        <small>Pregunta de muestra</small>
-        <span class="chip" id="preview-codigo">…</span>
+  <main id="contenido" tabindex="-1">
+    <section class="hero" id="inicio" aria-labelledby="titulo">
+      <div class="hero-texto">
+        <span class="hero-kicker"><span class="punto-vigencia" aria-hidden="true"></span> Res. 364/2023 · versión 2023 · vigente</span>
+        <h1 id="titulo">El SNA, <em>al dedillo</em>.</h1>
+        <p class="hero-slogan">Consulta la Res. 364/2023, practica con exámenes y descarga las plantillas en Word. Todo desde el móvil, incluso sin conexión.</p>
+        <div class="hero-acciones">
+          <a class="boton-principal" href="app.html#manual">
+            <span>Consultar el Manual</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="boton-secundario" href="app.html#examen">Examinarme</a>
+          <a class="boton-secundario" href="app.html#curso">Educarse</a>
+        </div>
+        <p class="hero-nota"><span class="nota-oficial">Sin valor oficial</span> Estudio y consulta · funciona sin conexión</p>
       </div>
-      <p class="preview-texto" id="preview-enunciado"></p>
-      <div class="preview-opciones" id="preview-opciones"></div>
-      <p class="preview-explicacion">
-        <span class="chip" id="preview-ref">…</span>
-        <span id="preview-explicacion"></span>
-      </p>
+
+      <div class="hero-demo" aria-hidden="true">
+        <div class="demo-ventana">
+          <div class="demo-barra">
+            <span class="demo-marca"><span class="demo-punto"></span> Al Dedillo</span>
+            <span class="demo-tabs"><span class="activo">Manual</span><span>Curso</span><span>Examen</span></span>
+          </div>
+          <div class="demo-cuerpo">
+            <div class="demo-busca">
+              <svg width="17" height="17" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>plazo de entrega</span>
+              <span class="demo-tecla">⌘K</span>
+            </div>
+            <div class="demo-resultado">
+              <div class="demo-meta"><span class="chip demo-chip">P-0001-01</span><span>Gaceta p. 12</span></div>
+              <b>Plazos de la acción de control</b>
+              <p>Entrega del informe y término para las aclaraciones.</p>
+              <div class="demo-docs">
+                <span class="demo-doc demo-doc-principal">Word</span>
+                <span class="demo-doc">Guía</span>
+                <span class="demo-doc demo-doc-suave">Ver sección →</span>
+              </div>
+            </div>
+            <div class="demo-plazos">
+              <span class="demo-plazos-label">Escala de plazos</span>
+              <div class="demo-escala">
+                <span><b>5</b><i>días</i></span>
+                <span class="activo"><b>10</b><i>días</i></span>
+                <span><b>20</b><i>días</i></span>
+                <span><b>30</b><i>días</i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="demo-sello">Res. 364/2023</span>
+      </div>
     </section>
 
-    <nav class="acciones" aria-label="Secciones del producto">
-      <a class="cta cta-principal" href="app.html#manual">
-        <span class="cta-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5Z M14 3v5h5 M8 12h8M8 16h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-        </span>
-        <span><b>Consultar el Manual</b><small>Tomo I y Tomo II, navegando por código</small></span>
-        <span class="cta-flecha" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </a>
-      <a class="cta" href="app.html#curso">
-        <span class="cta-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 10v5c0 1.5 3 3 6 3s6-1.5 6-3v-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-        </span>
-        <span><b>Educarse</b><small>Los puntos que más golpean, con rutas por fase</small></span>
-        <span class="cta-flecha" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </a>
-      <a class="cta" href="app.html#examen">
-        <span class="cta-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="m7.5 12.5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-        <span><b>Examinarme</b><small>Simulacros con retroalimentación al dedillo</small></span>
-        <span class="cta-flecha" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </a>
-    </nav>
+    <section class="beneficios" aria-labelledby="beneficios-titulo">
+      <div class="seccion-intro">
+        <p class="kicker">Qué encuentras</p>
+        <h2 id="beneficios-titulo">Todo el manual, no un resumen.</h2>
+        <p>La norma completa, las plantillas editables y las herramientas para estudiar, en una sola app.</p>
+      </div>
+      <div class="beneficios-grid">
+        <article class="beneficio">
+          <span class="beneficio-ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Manual completo</h3>
+          <p>31 secciones del Tomo I y Tomo II, con texto legal y referencias a la Gaceta.</p>
+        </article>
+        <article class="beneficio">
+          <span class="beneficio-ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 15l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <h3>Busca por código o tema</h3>
+          <p>Encuentra la sección, la plantilla o el plazo sin recorrer el PDF.</p>
+        </article>
+        <article class="beneficio">
+          <span class="beneficio-ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M5 3h14v18H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m8 12 2.5 2.5L16 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Examen con retroalimentación</h3>
+          <p>Preguntas por fase, explicación y referencia normativa en cada respuesta.</p>
+        </article>
+        <article class="beneficio">
+          <span class="beneficio-ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5Z M14 3v5h5 M8 12h8M8 16h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <h3>Plantillas en Word</h3>
+          <p>89 códigos y 151 documentos editables, listos para imprimir.</p>
+        </article>
+        <article class="beneficio">
+          <span class="beneficio-ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4Z M20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <h3>Glosario y plazos</h3>
+          <p>18 términos y la escala de plazos para consultar en segundos.</p>
+        </article>
+        <article class="beneficio">
+          <span class="beneficio-ico" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Sin conexión</h3>
+          <p>Instálala en el móvil y úsala en zona muerta, sin datos.</p>
+        </article>
+      </div>
+    </section>
 
-    <div class="stats" id="stats" hidden>
-      <span class="ok"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8.5 12.5 2.5 2.5 5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span id="stats-ok">0</span></span>
-      <span class="ko"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m9 9 6 6M15 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span id="stats-ko">0</span></span>
-      <button class="stats-borrar" type="button" id="stats-borrar">Reiniciar estadísticas</button>
-    </div>
+    <section class="cifras" aria-label="Contenido disponible">
+      <div><b>31</b><span>secciones</span></div>
+      <div><b>89</b><span>códigos</span></div>
+      <div><b>151</b><span>documentos</span></div>
+      <div><b>18</b><span>términos</span></div>
+    </section>
 
-    <button class="boton-instalar" type="button" id="boton-instalar">
-      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Usar sin internet
-    </button>
+    <section class="pasos" aria-labelledby="pasos-titulo">
+      <div class="seccion-intro">
+        <p class="kicker">Así se usa</p>
+        <h2 id="pasos-titulo">De la consulta al examen.</h2>
+      </div>
+      <ol class="pasos-lista">
+        <li class="paso">
+          <span class="paso-num" aria-hidden="true">01</span>
+          <div>
+            <h3>Consulta</h3>
+            <p>Busca por código, tema o plazo y abre la sección completa.</p>
+            <a class="paso-enlace" href="app.html#manual">Ir al Manual <span aria-hidden="true">→</span></a>
+          </div>
+        </li>
+        <li class="paso">
+          <span class="paso-num" aria-hidden="true">02</span>
+          <div>
+            <h3>Examina</h3>
+            <p>Practica por fase y revisa la explicación de cada respuesta.</p>
+            <a class="paso-enlace" href="app.html#examen">Abrir examen <span aria-hidden="true">→</span></a>
+          </div>
+        </li>
+        <li class="paso">
+          <span class="paso-num" aria-hidden="true">03</span>
+          <div>
+            <h3>Mide tu progreso</h3>
+            <p>Tus aciertos y fallos se guardan en el dispositivo.</p>
+            <a class="paso-enlace" href="app.html#progreso">Ver progreso <span aria-hidden="true">→</span></a>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="practica" aria-labelledby="practica-titulo">
+      <div class="seccion-intro">
+        <p class="kicker">Pruébalo</p>
+        <h2 id="practica-titulo">Una pregunta, al dedillo.</h2>
+        <p>Así se ven las preguntas del banco: opciones, respuesta correcta y referencia normativa.</p>
+      </div>
+      <div class="preview" aria-label="Pregunta de muestra">
+        <div class="preview-cabecera">
+          <small>Pregunta de muestra</small>
+          <span class="chip" id="preview-codigo">…</span>
+        </div>
+        <p class="preview-texto" id="preview-enunciado"></p>
+        <div class="preview-opciones" id="preview-opciones"></div>
+        <p class="preview-explicacion">
+          <span class="chip" id="preview-ref">…</span>
+          <span id="preview-explicacion"></span>
+        </p>
+        <a class="practica-cta" href="app.html#examen">Probar el examen completo <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="stats" id="stats" hidden>
+        <span class="ok"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8.5 12.5 2.5 2.5 5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span id="stats-ok">0</span></span>
+        <span class="ko"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m9 9 6 6M15 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span id="stats-ko">0</span></span>
+        <button class="stats-borrar" type="button" id="stats-borrar">Reiniciar estadísticas</button>
+      </div>
+    </section>
+
+    <section class="instalar" aria-labelledby="instalar-titulo">
+      <div class="instalar-texto">
+        <p class="kicker">Sin conexión</p>
+        <h2 id="instalar-titulo">Llévalo en el bolsillo.</h2>
+        <p>Guarda Al Dedillo en tu pantalla de inicio y ábrelo aunque no tengas datos.</p>
+        <p class="instalar-nota">En iPhone o iPad: Compartir → Agregar a pantalla de inicio.</p>
+      </div>
+      <button class="boton-instalar" type="button" id="boton-instalar">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Usar sin internet
+      </button>
+    </section>
 
     <a class="aliado" href="https://vialcuba-pages.intenave.com/" target="_blank" rel="noopener">
       <span class="aliado-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4Z M20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
@@ -107,8 +228,8 @@
     <h2 id="titulo-instalar">Usar sin internet</h2>
     <p>Guarda Al Dedillo en tu dispositivo:</p>
     <ol>
-      <li>Toca el botón <strong>Compartir</strong> del navegador <svg width="14" height="14" viewBox="0 0 24 24" style="display:inline;vertical-align:-2px" aria-hidden="true"><path d="M12 3v12m0-12 4 4m-4-4-4 4M5 14v6h14v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></li>
-      <li>Elige <strong>Agregar a pantalla de inicio</strong></li>
+      <li>Abre el menú del navegador (en iPhone o iPad, toca <strong>Compartir</strong>)</li>
+      <li>Elige <strong>Agregar a pantalla de inicio</strong> o <strong>Instalar app</strong></li>
       <li>Confirma</li>
     </ol>
     <button class="boton-modal" type="button" data-cerrar-modal>Entendido</button>

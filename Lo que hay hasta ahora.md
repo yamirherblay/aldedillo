@@ -1,7 +1,7 @@
 # Lo que hay hasta ahora — Al Dedillo
 
 > Documento de estado para retomar el proyecto en cualquier sesión.
-> Última actualización: 2026-11-14 · Fases 0–3 completadas y verificadas.
+> Última actualización: 2026-11-16 · Fases 0–6 completadas y verificadas.
 > Las reglas del proyecto viven en `CONSTITUCION.md` (cumplirlas siempre).
 
 ---
@@ -14,7 +14,7 @@ educarse con los puntos que más golpean y autoexaminarse con retroalimentación
 
 - **Vanilla** HTML + CSS + JS (módulos ES). Sin build, sin framework, sin CDNs.
 - Todo el texto visible en **español**. Iconos SVG inline (nunca emoji).
-- Desplegado en **Cloudflare Pages** (repo `yamirherblay/aldedillo`); APK contemplada a futuro (Fase 5+).
+- Desplegado en **Cloudflare Pages** (repo `yamirherblay/aldedillo`); APK contemplada a futuro (Fase 7+).
 - **El contenido se actualiza solo editando `data/`** — la lógica nunca necesita cambios para eso.
 
 ## 2. Cómo ejecutarlo
@@ -42,12 +42,13 @@ Parámetros de QA (solo verificación, no afectan uso normal):
 |---|---|---|
 | 0.0 | Estructura + Constitución | ✅ |
 | 0 | Extracción del PDF → `data/` (31 secciones Tomo I, 91 plantillas Tomo II, constantes, fuentes, 6 preguntas, curso) | ✅ — pendiente validación humana |
-| 1 | Página de entrada (`index.html`): hero, vigencia, preview de pregunta, CTAs, dark mode | ✅ verificada |
+| 1 | Página de entrada (`index.html`): landing «Manual vivo», hero partido con demo de producto, CTAs, preview de pregunta, instalación y dark mode | ✅ verificada |
 | 2 | App de consulta: 9 vistas, buscador offline, glosario, plazos, progreso, reflujo de texto, layout amplio | ✅ verificada |
 | 3 | Examen: motor en `core/examen.js`, retroalimentación con chips, sesión persistente, exámenes por punto | ✅ verificada |
-| 4 | Service Worker (`sw.js`): precache de 39 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada (`al-dedillo-v5`) |
+| 4 | Service Worker (`sw.js`): precache de 39 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada (`al-dedillo-v6`) |
 | 5 | Plantillas del Tomo II en Word: modelo `data/formularios.js`, 151 `.docx` (65 formularios + 86 guías), descarga desde la ficha, caché offline del documento | ✅ verificada |
-| 6 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
+| 6 | Landing e identidad visual «Manual vivo» + auditoría de contraste WCAG 2.2 AA | ✅ verificada |
+| 7 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
 
 ## 4. Mapa de archivos
 
@@ -55,7 +56,7 @@ Parámetros de QA (solo verificación, no afectan uso normal):
 al-dedillo/
 ├── CONSTITUCION.md          ← reglas + tabla de fases (actualizar al avanzar)
 ├── README.md
-├── index.html + js/entrada.js + css/entrada.css   ← página de entrada (Fase 1)
+├── index.html + js/entrada.js + css/entrada.css   ← landing «Manual vivo» (Fase 6)
 ├── app.html                 ← shell de la app (Fase 2): sidebar + tabs móviles + panel «Más»
 ├── manifest.webmanifest + icons/ (icono.svg, 180/192/512 png)
 ├── css/
@@ -124,11 +125,14 @@ al-dedillo/
   - Códigos duplicados: se usa la primera aparición (`setdefault`); P-0001-07 y P-0002-07 no duplican plantilla. Formularios que el extractor ve como texto plano se reclasifican como guía; `sin_guia` elimina guías de una línea en códigos que solo son tablas de referencia.
   - Tablas anchas → sección apaisada; cabeceras largas en columnas estrechas → guion manual (`Asevera-\nción`) y 8 pt en las matrices densas; filas con altura mínima `AT_LEAST` para que el texto no se recorte.
   - La ficha de plantilla muestra una tarjeta **Documentos de trabajo** con las descargas Word y deja el texto crudo de la Gaceta dentro de un `<details>` de referencia.
+- **Landing e identidad visual (Fase 6)**: `index.html` + `css/entrada.css` con dirección **«Manual vivo»**. Hero partido en desktop, una columna en móvil; demo de producto en HTML/CSS (buscador, chip `P-0001-01`, descarga Word y escala de plazos 5/10/20/30), sin capturas ni imágenes externas. La pregunta de muestra baja a «Pruébalo»; la instalación y el aliado quedan al final.
+  - **Mobile first**: a 320/360 px se ven el CTA principal y el inicio de la demo; la demo completa aparece desde 560 px y el hero partido desde 768 px. El botón de instalar es visible siempre y abre el modal genérico si el navegador no ofrece `beforeinstallprompt`.
+  - **Contraste WCAG 2.2 AA**: tokens `--color-accent-text` (`#047857` / `#34d399`), `--color-accent-strong` (hover de chips verdes), `--color-control-border` (`#64748b` / `#6b82a8`) y `--color-destructive-text` (`#b91c1c` / `#f87171`). Corregidos el chip de plantilla (3.25:1 → 4.63:1), su hover, el botón peligro en oscuro (2.77:1 → 6.07:1) y los bordes de controles (1.24:1 → 4.55:1). Los bordes de tarjetas y separadores siguen siendo decorativos.
 
 ## 8. Pendiente / siguiente
 
 1. **Fase 4 — offline + despliegue: ✅ hecha.**
-   - `sw.js`: precache de 39 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/` incluido `formularios.js`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v5`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
+   - `sw.js`: precache de 39 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/` incluido `formularios.js`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v6`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
    - Los `.docx` **no** entran en el precache (151 archivos, ~6 MB): se guardan en el caché de uso la primera vez que se descargan (`plantillas/*.docx`), así quedan disponibles sin conexión.
    - Despliegue: ✅ en Cloudflare Pages desde `yamirherblay/aldedillo` (sin build; la raíz del repo es la raíz del sitio).
    - **Bug de navegación corregido** (el que rompía el sitio desplegado): `peticion` ya es el `Request`; `peticion.request` era `undefined`, así que `fetch(undefined)` pedía `GET /undefined` y el 404 se servía como la página (la URL no cambiaba, sin error en consola). Además la variante con `peticion.request.url` lanzaba `TypeError` → página de error. Regla: en el SW usar `peticion.url` (texto) y `peticion` (Request), nunca `peticion.request`.
@@ -174,7 +178,13 @@ al-dedillo/
 - Fase 5 (Word + UI, Playwright con Chrome del sistema):
   - 89 códigos · 65 formularios · 86 guías = **151 `.docx`**, 0 faltantes y 0 códigos sin documento; modelo de 596 KB.
   - Ficha `#plantillas/P-0001-01`: tarjeta «Documentos de trabajo», dos botones, descarga real del formulario (39 KB) y de la guía; texto de la Gaceta plegado; cero errores de consola.
-  - SW `v5`: el `.docx` descargado entra en `al-dedillo-v5`; con `context.set_offline(True)` la ficha vuelve a pintar los dos botones y el documento responde 200 desde el caché.
+  - SW `v6`: el `.docx` descargado entra en `al-dedillo-v6`; con `context.set_offline(True)` la ficha vuelve a pintar los dos botones y el documento responde 200 desde el caché.
   - Como los `.docx` se guardan por URL, **cada cambio de plantillas exige subir `CACHE_VERSION`** (igual que `data/`): si no, los usuarios con el documento ya cacheado siguen viendo la versión vieja.
   - Revisión visual (LibreOffice → PDF → PNG) de los 46 formularios curados y de las guías; corregidos recortes de cabecera, páginas en blanco finales y tablas apaisadas.
   - Cartas y actas: las líneas que el PDF partía se recomponen en párrafos continuos (P-0002-01, P-0001-03, P-0002-03/04, P-G02-07, P-D0001-14); las tablas de referencia y los formularios curados no se tocan.
+- Fase 6 (landing + contraste, Playwright con Chrome del sistema):
+  - `index.html` y `css/entrada.css` reescritos con dirección «Manual vivo»; probados en **320, 360, 375, 560, 768, 1024 y 1280 px**, claro y oscuro. Sin desbordamiento horizontal, cero errores de consola.
+  - Primer scroll móvil: CTA principal visible y demo de producto empezando; a 360 px el botón primario está en y≈282 y la demo en y≈470.
+  - Skip link funcional (primer Tab → «Saltar al contenido»), foco al `main`, modal con foco inicial en «Entendido», trampa de Tab, cierre con Escape y retorno de foco al botón de instalar.
+  - Contraste medido sobre estilos computados: todos los textos de la landing ≥4.5:1 (la mayoría ≥7:1); bordes de controles 4.55:1 (claro) y 4.67:1 (oscuro). En la app: chip de plantilla 4.73:1, hover 5.48/8.73:1, botón peligro 6.07:1 en oscuro, buscador/opciones con borde ≥4:1.
+  - `sw.js` sube a `v6`: 39 entradas precacheadas; recarga de `index.html` sin red verificada (título, hero y demo presentes).

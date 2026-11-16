@@ -334,12 +334,13 @@ a.chip:hover {
 }
 .chip-plantilla {
   background: color-mix(in srgb, var(--color-accent) 12%, transparent);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
-.chip-plantilla:hover {
-  background: var(--color-accent);
-  color: #04281d;
+a.chip-plantilla:hover,
+button.chip-plantilla:hover {
+  background: var(--color-accent-strong);
+  color: var(--color-on-primary);
 }
 
 /* ---------- sección de detalle ---------- */
@@ -553,7 +554,7 @@ a.chip:hover {
   gap: 10px;
   padding: 12px 14px;
   background: var(--color-surface);
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-control-border);
   border-radius: var(--radio-1);
   color: var(--color-muted-text);
   transition: border-color var(--dur-1) var(--easing);
@@ -644,11 +645,11 @@ mark {
   vertical-align: -2px;
 }
 .stats-fila .ok {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   font-weight: 700;
 }
 .stats-fila .ko {
-  color: var(--color-destructive);
+  color: var(--color-destructive-text);
   font-weight: 700;
 }
 
@@ -675,7 +676,7 @@ mark {
 }
 .boton-peligro {
   background: var(--color-destructive);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 /* ---------- documentos de la plantilla ---------- */
@@ -762,7 +763,7 @@ mark {
   width: 100%;
   padding: 12px 14px;
   background: var(--color-surface);
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-control-border);
   border-radius: var(--radio-1);
   font: inherit;
   color: var(--color-foreground);
@@ -858,12 +859,12 @@ mark {
   font-size: 0.8rem;
 }
 .desglose-marca.ok {
-  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
-  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-accent-text);
 }
 .desglose-marca.ko {
   background: color-mix(in srgb, var(--color-destructive) 15%, transparent);
-  color: var(--color-destructive);
+  color: var(--color-destructive-text);
 }
 .desglose-cuerpo {
   display: flex;
