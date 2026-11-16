@@ -119,6 +119,15 @@
 <script>
   // Service Worker: modo sin conexión (Fase 4). No bloquea el render.
   if ("serviceWorker" in navigator && location.protocol !== "file:") {
+    // Si un SW nuevo toma el control, recargar una vez para que la página
+    // use el código nuevo. Así se recuperan solos los equipos que quedaron
+    // con una versión anterior defectuosa. En la primera visita no hay
+    // control previo y no se recarga.
+    let teniaControl = Boolean(navigator.serviceWorker.controller);
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (teniaControl) location.reload();
+      teniaControl = true;
+    });
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
   }
 </script>

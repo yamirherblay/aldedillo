@@ -1,16 +1,15 @@
 // ============================================================
 // sw.js — Service Worker de Al Dedillo (Fase 4, modo sin conexión).
 //
-// Estrategia: cache-first con precache completo (~1.4 MB).
-// La primera visita llena el caché; a partir de ahí la app vive
-// sin internet (zona muerta de Cuba).
+// Estrategia: precache completo (~1.4 MB) en la primera visita.
+// A partir de ahí la app vive sin internet (zona muerta de Cuba).
 //
 // AL ACTUALIZAR CONTENIDO (data/) O CÓDIGO: subir CACHE_VERSION
 // en este mismo commit — si no, los usuarios siguen viendo el
 // caché viejo hasta que el SW nuevo se active.
 // ============================================================
 
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v3";
 const CACHE_NOMBRE = `al-dedillo-${CACHE_VERSION}`;
 
 const PRECACHE = [
@@ -59,6 +58,13 @@ const PRECACHE = [
   "data/fuentes.js",
 ];
 
+// Página que corresponde a una navegación, como clave del caché.
+// «/» y cualquier ruta desconocida caen en la entrada (index.html).
+function paginaDe(url) {
+  const ruta = new URL(url).pathname;
+  return ruta.includes("app.html") ? "app.html" : "index.html";
+}
+
 self.addEventListener("install", (evento) => {
   evento.waitUntil(
     caches
@@ -81,25 +87,47 @@ self.addEventListener("activate", (evento) => {
 
 self.addEventListener("fetch", (evento) => {
   const peticion = evento.request;
+
   if (peticion.method !== "GET") return;
 
-  // navegaciones (recargar / abrir la app sin conexión): primero caché;
-  // si no está precacheada (p. ej. «/»), cae a la página que corresponde
+  // ---- navegaciones (abrir o recargar una página) ----
+  // Red primero: así el contenido se refresca en cuanto hay conexión.
+  // Sin conexión, se sirve la página guardada en el caché.
+  //
+  // OJO: `peticion` YA es el Request. Nunca usar `peticion.request`
+  // (es undefined): `fetch(undefined)` pedía «/undefined» y el 404 se
+  // servía como la propia navegación (la página no cambiaba y no
+  // había error en consola). Además, un Request de modo «navigate»
+  // no es válido para fetch(): siempre pasar su URL como texto.
   if (peticion.mode === "navigate") {
     evento.respondWith(
-      caches.match(peticion.request).then((enCache) => {
-        if (enCache) return enCache;
-        return fetch(peticion.request).catch(() => {
-          const esApp = new URL(peticion.request.url).pathname.includes("app.html");
-          return caches.match(esApp ? "app.html" : "index.html");
-        });
-      })
+      fetch(peticion.url)
+        .then((respuesta) => {
+          // refrescar la copia guardada de la página (sin query ni hash)
+          if (respuesta && respuesta.ok) {
+            const copia = respuesta.clone();
+            caches
+              .open(CACHE_NOMBRE)
+              .then((cache) => cache.put(paginaDe(peticion.url), copia))
+              .catch(() => {});
+          }
+          return respuesta;
+        })
+        .catch(() =>
+          caches
+            .match(peticion.url, { ignoreSearch: true })
+            .then((enCache) => enCache || caches.match(paginaDe(peticion.url)))
+            .then((respuesta) => respuesta || Response.error())
+        )
     );
     return;
   }
 
-  // recursos: primero el caché; si no está, la red
+  // ---- recursos (js, css, fuentes, iconos, manifest) ----
+  // Caché primero; si no está, la red.
   evento.respondWith(
-    caches.match(peticion.request, { ignoreSearch: true }).then((enCache) => enCache || fetch(peticion))
+    caches
+      .match(peticion, { ignoreSearch: true })
+      .then((enCache) => enCache || fetch(peticion))
   );
 });

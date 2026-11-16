@@ -45,7 +45,7 @@ Parámetros de QA (solo verificación, no afectan uso normal):
 | 1 | Página de entrada (`index.html`): hero, vigencia, preview de pregunta, CTAs, dark mode | ✅ verificada |
 | 2 | App de consulta: 9 vistas, buscador offline, glosario, plazos, progreso, reflujo de texto, layout amplio | ✅ verificada |
 | 3 | Examen: motor en `core/examen.js`, retroalimentación con chips, sesión persistente, exámenes por punto | ✅ verificada |
-| 4 | **SIGUIENTE**: Service Worker (`sw.js`) + prueba offline real (despliegue ya hecho en Cloudflare Pages) | ⬜ |
+| 4 | Service Worker (`sw.js`): precache de 38 entradas, offline real verificado (despliegue en Cloudflare Pages) | ✅ verificada |
 | 5 | (futuro) APK, banco completo de 20 preguntas, más contenido | ⬜ |
 
 ## 4. Mapa de archivos
@@ -112,10 +112,10 @@ al-dedillo/
 
 ## 8. Pendiente / siguiente
 
-1. **Fase 4 — offline + despliegue**:
-   - `sw.js`: precache de HTML/CSS/JS/fonts/icons/data (~1.2 MB), estrategia cache-first con versión en el nombre del caché; actualizar `manifest` si hace falta; probar en modo avión.
-   - Despliegue: ✅ hecho en Cloudflare Pages desde el repo `yamirherblay/aldedillo` (sin build; la raíz del repo es la raíz del sitio).
-   - Prueba real sin conexión (zona muerta) — tras crear el Service Worker.
+1. **Fase 4 — offline + despliegue: ✅ hecha.**
+   - `sw.js`: precache de 38 entradas (páginas, CSS, fuentes, iconos, `core/`, `ui/`, `data/`), navegaciones red-primero con caída al caché y recursos caché-primero; versión en el nombre del caché (`al-dedillo-v3`); `skipWaiting` + `claim` y recarga automática al cambiar el controlador (`controllerchange`).
+   - Despliegue: ✅ en Cloudflare Pages desde `yamirherblay/aldedillo` (sin build; la raíz del repo es la raíz del sitio).
+   - **Bug de navegación corregido** (el que rompía el sitio desplegado): `peticion` ya es el `Request`; `peticion.request` era `undefined`, así que `fetch(undefined)` pedía `GET /undefined` y el 404 se servía como la página (la URL no cambiaba, sin error en consola). Además la variante con `peticion.request.url` lanzaba `TypeError` → página de error. Regla: en el SW usar `peticion.url` (texto) y `peticion` (Request), nunca `peticion.request`.
 2. **Re-extracción de tablas del Tomo I con `pdftotext -layout`**: las tablas complejas (escala de materialidad en H-001-0001-07, «Tareas y su descripción») quedan entremezcladas. `-layout` las recupera mucho mejor, pero exige regenerar `data/manual.js` y repetir las verificaciones de fidelidad (31/31 secciones, 89/91 plantillas). Off: página impresa 3252 = página PDF 3 (offset 3249).
 3. **Validación por auditores** (contenido): 6 preguntas del banco, 6 puntos de golpe, 18 términos del glosario — todos marcados `borrador-pendiente-validacion` en sus `meta`.
 4. **Completar el banco a 20 preguntas** → el examen pasa a 20×5 automáticamente.
@@ -127,7 +127,15 @@ al-dedillo/
 - **Probar core en Node v16**: los módulos ES requieren copias `.mjs` en /tmp con el import `./datos.js` reescrito a ruta absoluta; los `data/` se importan por `file://` y setean `global.window`.
 - `pdftotext` paginación: los números de página del texto son los **impresos de la Gaceta** (3252–3612), no los del PDF (361 páginas).
 - Generar PNG del logo por captura del SVG es racy: mejor re-escalar del 512 con LANCZOS.
-- El proyecto **no es un repo git** (nada versionado aún): considerar `git init` antes de desplegar.
+- **Service Worker**:
+  - `peticion` ya ES el `Request`. `peticion.request` es `undefined`: `fetch(undefined)` termina en `GET /undefined` (404 que sustituye a la página) y `peticion.request.url` lanza `TypeError`. Usar `peticion.url` (texto) para `fetch`/`caches.match` y `peticion` para `fetch` de recursos.
+  - Un Request de modo `navigate` no sirve para `fetch()`; siempre pasar la URL como texto.
+  - Los errores del SW **no salen en la consola de la página**: descubrirlos con CDP `ServiceWorker.enable` (evento `ServiceWorker.workerErrorReported`, con línea exacta).
+  - `Network.emulateNetworkConditions(offline)` **no es fiable con SW**: a veces ni despacha el evento `fetch`. Para probar offline de verdad: matar el servidor (fallo de red auténtico) y luego recargar/navegar.
+  - En una página de error de Chrome no corre JS (`caches` no se puede inspeccionar ahí): volver a una página válida para leer el caché.
+  - `Page.reload` es la prueba dura: no usa el caché HTTP, obliga al SW a servir la navegación. Las navegaciones pueden «colar» por el caché HTTP y ocultar fallos del SW.
+- Probar el SW con **perfil de Chrome limpio** en cada corrida; un SW viejo del mismo origen enmascara los resultados.
+- Repo git en `main`, remoto `AlDEDILLO` (GitHub `yamirherblay/aldedillo`); Cloudflare Pages redespliega al hacer push. Tras cambiar `sw.js`, subir `CACHE_VERSION`.
 - El `logo.svg` no tiene `id`, por eso `app.html` lo lleva inline (no `<use>`).
 
 ## 10. Verificado hasta ahora
@@ -135,3 +143,6 @@ al-dedillo/
 - Fase 1: entrada en claro/oscuro (capturas).
 - Fase 2: las 9 vistas en claro/oscuro, desktop 1200/1480 y móvil 500; búsqueda («materialidad» → 19 resultados; «recurso apelación», «expediente cinco años» correctos); reflujo (0 guiones rotos de 785; compuestos preservados); fusión de P-0001-07.
 - Fase 3: motor simulado en Node (banco 5/6 → 83,3 aprueba; punto 2 → 2/2 = 100, 1/2 = 50 no aprueba); capturas del flujo completo (intro, fallo, acierto, resultado con desglose correcto) en claro/oscuro/móvil.
+- Fase 4 (Chrome por CDP, perfil limpio):
+  - Con red: `index.html` instala el SW y precachea 38/38; `app.html?marcador=E#manual` → «Manual · Al Dedillo»; buscador «materialidad» → 19 resultados y «expediente cinco años» → 4, ida y vuelta manual↔buscar; recarga correcta.
+  - Sin red (servidor matado): recarga → «Buscar · Al Dedillo» con la app pintada; «materialidad» → 19 resultados; `#examen` → «Examen · Al Dedillo»; `/` e `index.html` → entrada. Cero peticiones a `/undefined`.
