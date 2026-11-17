@@ -4,14 +4,78 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Al Dedillo — El SNA al dedillo: consulta, examina, certifícate</title>
-<meta name="description" content="Herramienta de estudio y consulta para auditores del Sistema Nacional de Auditoría de Cuba, basada en la Resolución 364/2023 (Manual de procedimientos de las acciones de prevención y control). Recopilación de estudio sin valor oficial.">
+<meta name="description" content="Consulta el Manual del SNA (Res. 364/2023), practica con 100 preguntas y descarga plantillas de auditoría. Gratis, sin conexión y sin valor oficial.">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <meta name="theme-color" content="#1e3a5f">
+<link rel="canonical" href="https://aldedillo.vercel.app/">
 <link rel="icon" href="icons/icono.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icono-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/entrada.css">
-<script src="data/preguntas.js"></script>
+
+<!-- Open Graph y Twitter: vista previa al compartir por WhatsApp, Telegram o redes -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Al Dedillo">
+<meta property="og:locale" content="es_CU">
+<meta property="og:title" content="Al Dedillo — El SNA al dedillo: consulta, examina, certifícate">
+<meta property="og:description" content="Manual del SNA (Res. 364/2023), examen con 100 preguntas y plantillas de auditoría. Gratis y sin conexión.">
+<meta property="og:url" content="https://aldedillo.vercel.app/">
+<meta property="og:image" content="https://aldedillo.vercel.app/icons/og-al-dedillo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Al Dedillo: manual, examen y plantillas del SNA (Res. 364/2023)">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Al Dedillo — El SNA al dedillo">
+<meta name="twitter:description" content="Manual del SNA (Res. 364/2023), examen con 100 preguntas y plantillas de auditoría. Gratis y sin conexión.">
+<meta name="twitter:image" content="https://aldedillo.vercel.app/icons/og-al-dedillo.png">
+
+<!-- Datos estructurados -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://aldedillo.vercel.app/#website",
+      "url": "https://aldedillo.vercel.app/",
+      "name": "Al Dedillo",
+      "description": "Herramienta de estudio y consulta del Manual de procedimientos del SNA (Res. 364/2023).",
+      "inLanguage": "es-CU",
+      "publisher": { "@id": "https://aldedillo.vercel.app/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://aldedillo.vercel.app/#organization",
+      "name": "Al Dedillo",
+      "url": "https://aldedillo.vercel.app/",
+      "email": "yamira.mendez88@gmail.com",
+      "sameAs": [
+        "https://github.com/yamirherblay/aldedillo",
+        "https://vialcuba-pages.intenave.com/"
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://aldedillo.vercel.app/#app",
+      "name": "Al Dedillo",
+      "url": "https://aldedillo.vercel.app/app.html",
+      "description": "Consulta del Manual del SNA, práctica de examen y plantillas de auditoría, con funcionamiento sin conexión.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requiere JavaScript",
+      "inLanguage": "es-CU",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": { "@id": "https://aldedillo.vercel.app/#organization" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="salto" href="#contenido">Saltar al contenido</a>
@@ -248,6 +312,7 @@
   </div>
 </div>
 
+<script src="data/preguntas.js"></script>
 <script src="js/entrada.js"></script>
 <script>
   // Service Worker: modo sin conexión (Fase 4). No bloquea el render.
@@ -264,5 +329,12 @@
     window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
   }
 </script>
+
+<!-- Vercel Web Analytics: visitas y visitantes sin cookies.
+     Requiere activar Web Analytics en el panel del proyecto de Vercel. -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

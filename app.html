@@ -4,12 +4,44 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1e3a5f">
-  <meta name="description" content="Consulta del Manual de procedimientos del Sistema Nacional de Auditoría (Resolución 364/2023): normas, plantillas, plazos y examen offline.">
-  <title>Manual · Al Dedillo</title>
+  <meta name="description" content="Consulta el Manual de procedimientos del SNA (Res. 364/2023): normas, plantillas, plazos y examen offline.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://aldedillo.vercel.app/app.html">
+  <title>Manual del SNA · Al Dedillo</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icono.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/icono-180.png">
   <link rel="stylesheet" href="css/app.css">
+
+  <!-- Open Graph y Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Al Dedillo">
+  <meta property="og:locale" content="es_CU">
+  <meta property="og:title" content="Manual del SNA · Al Dedillo">
+  <meta property="og:description" content="Manual de procedimientos del SNA (Res. 364/2023): normas, plantillas, plazos y examen offline.">
+  <meta property="og:url" content="https://aldedillo.vercel.app/app.html">
+  <meta property="og:image" content="https://aldedillo.vercel.app/icons/og-al-dedillo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Al Dedillo: manual, examen y plantillas del SNA (Res. 364/2023)">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Manual del SNA · Al Dedillo">
+  <meta name="twitter:description" content="Manual de procedimientos del SNA (Res. 364/2023): normas, plantillas, plazos y examen offline.">
+  <meta name="twitter:image" content="https://aldedillo.vercel.app/icons/og-al-dedillo.png">
+
+  <!-- Datos estructurados -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://aldedillo.vercel.app/app.html#webpage",
+    "url": "https://aldedillo.vercel.app/app.html",
+    "name": "Manual del SNA · Al Dedillo",
+    "description": "Manual de procedimientos del SNA (Res. 364/2023): normas, plantillas, plazos y examen offline.",
+    "inLanguage": "es-CU",
+    "isPartOf": { "@id": "https://aldedillo.vercel.app/#website" }
+  }
+  </script>
 </head>
 <body>
   <div class="casca">
@@ -114,5 +146,12 @@
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
     }
   </script>
+
+  <!-- Vercel Web Analytics: visitas y visitantes sin cookies.
+       Requiere activar Web Analytics en el panel del proyecto de Vercel. -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
